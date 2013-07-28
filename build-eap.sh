@@ -34,9 +34,7 @@ mkdir build
 download_and_unzip ftp://ftp.redhat.com/redhat/jbeap/6.0.1/en/source/$SRC_FILE
 download_and_unzip http://maven.repository.redhat.com/techpreview/eap6/6.0.1/$MVN_FILE
 
-cd build/jboss-eap-6.0.1-maven-repository/
-patch -p 1 < ../../src/jboss-eap-6.0.1-maven-repository.patch
-cd ../..
+patch -p0 < src/jboss-eap-6.0.1.patch
 cp src/settings.xml build/jboss-eap-6.0-src/tools/maven/conf/
 
 export EAP_REPO_URL=file://`pwd`/build/jboss-eap-6.0.1-maven-repository/
@@ -44,3 +42,4 @@ cd build/jboss-eap-6.0-src/
 ./build.sh -Drelease=true
 
 cp -R dist/target/jboss-eap-6.0.1.ER4.zip ../
+echo "Build done. Check your root directory for the eap zip file."
