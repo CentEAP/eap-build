@@ -5,10 +5,10 @@ if [ "x$1" != "x" ]; then
 fi
 
 if [ "x$EAP_VERSION" == "x" ]; then
-    EAP_VERSION=6.0.1
+    EAP_VERSION=6.1.0
 fi
 
-echo "Here we go. Will try to build EAP version $EAP_VERSION."
+echo "Here we go. Building EAP version $EAP_VERSION."
 
 EAP_SHORT_VERSION=${EAP_VERSION%.*}
 SRC_FILE=jboss-eap-$EAP_VERSION-src.zip
@@ -31,7 +31,7 @@ function download_and_unzip {
         echo "$FILENAME unzipped"
     else
         echo "==== FAIL ===="
-        echo "I'm unable to download the file. You could download the $MVN_FILE file from http://www.jboss.org/jbossas/downloads or https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=appplatform&version=$EAP_VERSION (login required)"    
+        echo "I'm unable to download the file. You could download the $MVN_FILE file from http://www.jboss.org/jbossas/downloads or https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=appplatform&version=$EAP_VERSION (login required)"
         echo "=============="
         exit 1
     fi
@@ -46,9 +46,17 @@ download_and_unzip http://maven.repository.redhat.com/techpreview/eap6/$EAP_VERS
 patch -p0 < src/jboss-eap-$EAP_VERSION.patch
 cp src/settings.xml build/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
 
-export EAP_REPO_URL=file://`pwd`/build/jboss-eap-$EAP_VERSION-maven-repository/
+if [ $EAP_SHORT_VERSION == 6.0]; 
+then
+    export EAP_REPO_URL=file://`pwd`/build/jboss-eap-$EAP_VERSION-maven-repository/
+else
+    export EAP_REPO_URL=file://`pwd`/build/jboss-eap-$EAP_VERSION.GA-maven-repository/
+fi
 cd build/jboss-eap-$EAP_SHORT_VERSION-src/
-./build.sh -Drelease=true
+./build.sh -DskipTests -Drelease=true
+cd ../..
 
-cp -R dist/target/jboss-eap-6.0.1.ER4.zip ../
+# Copy zip files to the base dir, excluding the src files
+find build/jboss-eap-$EAP_SHORT_VERSION-src/dist/target \( ! -name "jboss*-src.zip" \) -a \( -name "jboss*.zip" \) -exec cp {} ./ \;
+
 echo "Build done. Check your root directory for the eap zip file."

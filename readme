@@ -10,5 +10,10 @@ If you want to run the script :
   cd eap-build
   ./build.sh
 
-The script has been tested under Ubuntu 12.04. It downloads the source code of JBoss EAP 6.0.1 .
+By default, it build EAP 6.1.0. You can build other versions by passing the number to th build :
 
+  ./build.sh 6.0.1
+
+For the moment, it supports 6.0.1 and 6.1.0.
+
+The script has been tested under MacOS X 10.7.
