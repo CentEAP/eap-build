@@ -1,6 +1,6 @@
-diff -abru build/jboss-eap-6.1-src/pom.xml build/jboss-eap-6.1-src-work/pom.xml
---- build/jboss-eap-6.1-src/pom.xml	2013-05-09 13:06:56.000000000 +0200
-+++ build/jboss-eap-6.1-src-work/pom.xml	2013-07-26 00:29:25.000000000 +0200
+diff -abru work/jboss-eap-6.1-src/pom.xml work/jboss-eap-6.1-src-work/pom.xml
+--- work/jboss-eap-6.1-src/pom.xml	2013-05-09 13:06:56.000000000 +0200
++++ work/jboss-eap-6.1-src-work/pom.xml	2013-07-26 00:29:25.000000000 +0200
 @@ -60,7 +60,7 @@
          <jboss.as.scm.connection>git@github.com:jbossas/jboss-as.git</jboss.as.scm.connection>
  
@@ -19,9 +19,9 @@ diff -abru build/jboss-eap-6.1-src/pom.xml build/jboss-eap-6.1-src-work/pom.xml
              </dependency>
  
              <dependency>
-diff -abru build/jboss-eap-6.1-src/tools/maven/conf/settings.xml build/jboss-eap-6.1-src-work/tools/maven/conf/settings.xml
---- build/jboss-eap-6.1-src/tools/maven/conf/settings.xml	2013-05-09 13:06:56.000000000 +0200
-+++ build/jboss-eap-6.1-src-work/tools/maven/conf/settings.xml	2013-07-26 21:55:58.000000000 +0200
+diff -abru work/jboss-eap-6.1-src/tools/maven/conf/settings.xml work/jboss-eap-6.1-src-work/tools/maven/conf/settings.xml
+--- work/jboss-eap-6.1-src/tools/maven/conf/settings.xml	2013-05-09 13:06:56.000000000 +0200
++++ work/jboss-eap-6.1-src-work/tools/maven/conf/settings.xml	2013-07-26 21:55:58.000000000 +0200
 @@ -1,132 +1,21 @@
  <?xml version="1.0" encoding="UTF-8"?>
  
@@ -280,9 +280,9 @@ diff -abru build/jboss-eap-6.1-src/tools/maven/conf/settings.xml build/jboss-eap
 -  -->
 +
  </settings>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom build/jboss-eap-6.1.0.GA-maven-repository-work/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom	2013-05-09 21:42:47.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom	2013-07-27 18:57:33.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom work/jboss-eap-6.1.0.GA-maven-repository-work/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom	2013-05-09 21:42:47.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/log4j/log4j/1.2.16-redhat-2/log4j-1.2.16-redhat-2.pom	2013-07-27 18:57:33.000000000 +0200
 @@ -229,7 +229,7 @@
            <dependency>
              <groupId>org.apache.ant</groupId>
@@ -292,9 +292,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/log4j/log4j/1.2.16-redhat-2
            </dependency>
            <dependency>
              <groupId>junit</groupId>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom build/jboss-eap-6.1.0.GA-maven-repository-work/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom	2013-05-09 21:43:10.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom	2013-07-27 18:33:50.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom work/jboss-eap-6.1.0.GA-maven-repository-work/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom	2013-05-09 21:43:10.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/net/sf/ehcache/ehcache-core/2.5.1-redhat-1/ehcache-core-2.5.1-redhat-1.pom	2013-07-27 18:33:50.000000000 +0200
 @@ -100,7 +100,7 @@
      <dependency>
        <groupId>org.hibernate</groupId>
@@ -304,9 +304,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/net/sf/ehcache/ehcache-core
        <scope>provided</scope>
      </dependency>
      <!--dependency>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom build/jboss-eap-6.1.0.GA-maven-repository-work/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom	2013-05-09 21:42:50.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom	2013-07-27 07:50:05.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom work/jboss-eap-6.1.0.GA-maven-repository-work/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom	2013-05-09 21:42:50.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom	2013-07-27 07:50:05.000000000 +0200
 @@ -94,7 +94,7 @@
      <dependency>
        <groupId>junit</groupId>
@@ -316,9 +316,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/fusesource/jansi/jansi/
        <scope>test</scope>
        <exclusions>
          <exclusion>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom	2013-05-09 21:43:11.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom	2013-07-27 07:50:21.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom	2013-05-09 21:43:11.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom	2013-07-27 07:50:21.000000000 +0200
 @@ -132,7 +132,7 @@
      <dependency>
        <groupId>junit</groupId>
@@ -328,9 +328,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/byteman/byteman/2
        <scope>test</scope>
        <exclusions>
          <exclusion>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom	2013-05-09 21:43:08.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom	2013-07-27 21:12:10.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom	2013-05-09 21:43:08.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.0.1-redhat-1/jboss-component-version-master-6.0.1-redhat-1.pom	2013-07-27 21:12:10.000000000 +0200
 @@ -89,7 +89,7 @@
      <version.jaxen>1.1.3-redhat-2</version.jaxen>
      <version.jline>0.9.94-redhat-2</version.jline>
@@ -387,9 +387,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/managem
      <version.org.projectodd.stilts>0.1.26-redhat-2</version.org.projectodd.stilts>
      <version.org.python.jython.standalone>2.5.2-redhat-2</version.org.python.jython.standalone>
      <version.org.rhq.helpers>3.0.4-redhat-2</version.org.rhq.helpers>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom	2013-05-09 21:43:08.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom	2013-07-27 21:12:18.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom	2013-05-09 21:43:08.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-1/jboss-component-version-master-6.1.0-redhat-1.pom	2013-07-27 21:12:18.000000000 +0200
 @@ -91,7 +91,7 @@
      <version.jaxen>1.1.3-redhat-2</version.jaxen>
      <version.jline>0.9.94-redhat-2</version.jline>
@@ -462,9 +462,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/managem
      <version.org.sonatype.aether>1.13.1</version.org.sonatype.aether>
      <version.org.sonatype.sisu>3.0.3</version.org.sonatype.sisu>
      <version.org.springframework>2.5.6.SEC03</version.org.springframework>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom	2013-05-09 21:43:08.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom	2013-07-27 21:12:25.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom	2013-05-09 21:43:08.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/component/management/jboss-component-version-master/6.1.0-redhat-2/jboss-component-version-master-6.1.0-redhat-2.pom	2013-07-27 21:12:25.000000000 +0200
 @@ -91,7 +91,7 @@
      <version.jaxen>1.1.3-redhat-2</version.jaxen>
      <version.jline>0.9.94-redhat-2</version.jline>
@@ -537,9 +537,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/component/managem
      <version.org.sonatype.aether>1.13.1</version.org.sonatype.aether>
      <version.org.sonatype.sisu>3.0.3</version.org.sonatype.sisu>
      <version.org.springframework>2.5.6.SEC03</version.org.springframework>
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom	2013-05-09 21:43:08.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom	2013-07-26 22:02:50.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom	2013-05-09 21:43:08.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-1/jboss-parent-10-redhat-1.pom	2013-07-26 22:02:50.000000000 +0200
 @@ -72,89 +72,89 @@
      <!-- **************** -->
      <!-- Plugins versions -->
@@ -713,9 +713,9 @@ diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-r
  
      <!-- ***************** -->
      <!-- Repository Deployment URLs -->
-diff -abru build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom
---- build/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom	2013-05-09 21:43:08.000000000 +0200
-+++ build/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom	2013-07-26 22:20:54.000000000 +0200
+diff -abru work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom
+--- work/jboss-eap-6.1.0.GA-maven-repository/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom	2013-05-09 21:43:08.000000000 +0200
++++ work/jboss-eap-6.1.0.GA-maven-repository-work/org/jboss/jboss-parent/10-redhat-2/jboss-parent-10-redhat-2.pom	2013-07-26 22:20:54.000000000 +0200
 @@ -72,90 +72,90 @@
      <!-- **************** -->
      <!-- Plugins versions -->
