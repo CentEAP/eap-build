@@ -41,6 +41,6 @@ cp src/settings.xml build/jboss-eap-6.0-src/tools/maven/conf/
 
 export EAP_REPO_URL=file://`pwd`/build/jboss-eap-6.0.1-maven-repository/
 cd build/jboss-eap-6.0-src/
-./build.sh
+./build.sh -Drelease=true
 
-cp -R build/target/jboss-eap-6.0 ../
+cp -R dist/target/jboss-eap-6.0.1.ER4.zip ../
