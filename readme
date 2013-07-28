@@ -1,6 +1,6 @@
 Building JBoss EAP 6, or something similar...
 
-As I'm not able to build JBoss EAP 6, I've make a script who can download JBoss EAP 6's source code, download it's Maven repository, patch the repository and launch the build.
+As I'm not able to build JBoss EAP 6, I've made a script who can download JBoss EAP 6's source code, download it's Maven repository, patch the repository and launch the build.
 
 The result won't be a JBoss EAP 6 binary but something with a few differences.
 
