@@ -1,9 +1,18 @@
 #!/bin/bash
 
-echo "Here we go. Will try to build EAP version 6.0.1."
+if [ "x$1" != "x" ]; then
+    EAP_VERSION=$1
+fi
 
-SRC_FILE=jboss-eap-6.0.1-src.zip
-MVN_FILE=jboss-eap-6.0.1-maven-repository.zip
+if [ "x$EAP_VERSION" == "x" ]; then
+    EAP_VERSION=6.0.1
+fi
+
+echo "Here we go. Will try to build EAP version $EAP_VERSION."
+
+EAP_SHORT_VERSION=${EAP_VERSION%.*}
+SRC_FILE=jboss-eap-$EAP_VERSION-src.zip
+MVN_FILE=jboss-eap-$EAP_VERSION-maven-repository.zip
 
 function download_and_unzip {
     URL=$1
@@ -22,7 +31,7 @@ function download_and_unzip {
         echo "$FILENAME unzipped"
     else
         echo "==== FAIL ===="
-        echo "I'm unable to download the file. You could download the $MVN_FILE file from http://www.jboss.org/jbossas/downloads or https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=appplatform&version=6.0.1 (login required)"    
+        echo "I'm unable to download the file. You could download the $MVN_FILE file from http://www.jboss.org/jbossas/downloads or https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=appplatform&version=$EAP_VERSION (login required)"    
         echo "=============="
         exit 1
     fi
@@ -31,14 +40,14 @@ function download_and_unzip {
 rm -rf build
 mkdir build
 
-download_and_unzip ftp://ftp.redhat.com/redhat/jbeap/6.0.1/en/source/$SRC_FILE
-download_and_unzip http://maven.repository.redhat.com/techpreview/eap6/6.0.1/$MVN_FILE
+download_and_unzip ftp://ftp.redhat.com/redhat/jbeap/$EAP_VERSION/en/source/$SRC_FILE
+download_and_unzip http://maven.repository.redhat.com/techpreview/eap6/$EAP_VERSION/$MVN_FILE
 
-patch -p0 < src/jboss-eap-6.0.1.patch
-cp src/settings.xml build/jboss-eap-6.0-src/tools/maven/conf/
+patch -p0 < src/jboss-eap-$EAP_VERSION.patch
+cp src/settings.xml build/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
 
-export EAP_REPO_URL=file://`pwd`/build/jboss-eap-6.0.1-maven-repository/
-cd build/jboss-eap-6.0-src/
+export EAP_REPO_URL=file://`pwd`/build/jboss-eap-$EAP_VERSION-maven-repository/
+cd build/jboss-eap-$EAP_SHORT_VERSION-src/
 ./build.sh -Drelease=true
 
 cp -R dist/target/jboss-eap-6.0.1.ER4.zip ../
