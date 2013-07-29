@@ -31,15 +31,13 @@ If you don't want to use git, download the archive, unzip it and run the main sc
     cd eap-build-master
     ./build-eap.sh
 
-It doesn't work ? Check if you have installed wget, unzip and java (JDK).
-
 Versions
 --------
 For the moment, it supports EAP 6.0.1 and 6.1.0.
 
 Prerequisite and systems supported
 ==================================
-The script is in bash. It should run on almost all bash-compatible systems. You have to install wget, unzip and java (JDK) first.
+The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip** and **java (JDK)** first.
 
 It has been tested on the following systems :
 * MacOS X 10.7

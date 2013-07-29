@@ -13,6 +13,13 @@ else
     EAP_VERSION=$1
 fi
 
+if [ ! -f src/jboss-eap-$EAP_VERSION.patch ]
+then
+    echo "Version $EAP_VERSION is not supported, versions supported are :" `find src -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9]'`
+    exit 1
+fi
+
+
 echo "Here we go. Building EAP version $EAP_VERSION."
 
 EAP_SHORT_VERSION=${EAP_VERSION%.*}
