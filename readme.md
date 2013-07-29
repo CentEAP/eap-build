@@ -14,22 +14,22 @@ With git
 --------
 If you want to run the script :
 
-  git clone git://github.com/hasalex/eap-build.git
-  cd eap-build
-  ./build-eap.sh
+    git clone git://github.com/hasalex/eap-build.git
+    cd eap-build
+    ./build-eap.sh
 
 By default, it builds EAP 6.1.0. You can build other versions by passing the number to the build :
 
-  ./build-eap.sh 6.0.1
+    ./build-eap.sh 6.0.1
 
 Without git
 -----------
 If you don't want to use git, download the archive, unzip it and run the main script :
 
-  wget https://github.com/hasalex/eap-build/archive/master.zip
-  unzip master.zip
-  cd eap-build-master
-  ./build-eap.sh
+    wget https://github.com/hasalex/eap-build/archive/master.zip
+    unzip master.zip
+    cd eap-build-master
+    ./build-eap.sh
 
 It doesn't work ? Check if you have installed wget, unzip and java (JDK).
 
