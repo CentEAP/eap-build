@@ -1,14 +1,10 @@
 #!/bin/bash
 
-if [ "x$1" != "x" ]; then
+if [ "x$1" == "x" ]; then
+    EAP_VERSION=6.1.0
+else
     EAP_VERSION=$1
 fi
-
-if [ "x$EAP_VERSION" == "x" ]; then
-    EAP_VERSION=6.1.0
-fi
-
-
 
 echo "Here we go. Building EAP version $EAP_VERSION."
 
@@ -53,7 +49,9 @@ fi
 download_and_unzip ftp://ftp.redhat.com/redhat/jbeap/$EAP_VERSION/en/source/$SRC_FILE
 download_and_unzip http://maven.repository.redhat.com/techpreview/eap6/$EAP_VERSION/$MVN_FILE
 
-patch -p0 < src/jboss-eap-$EAP_VERSION.patch
+echo "Patching files"
+echo "=== Patch ===" >> work/build.log
+patch -p0 < src/jboss-eap-$EAP_VERSION.patch >> work/build.log
 cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
 
 if [ $EAP_SHORT_VERSION == 6.0 ]
@@ -62,8 +60,10 @@ then
 else
     export EAP_REPO_URL=file://`pwd`/work/jboss-eap-$EAP_VERSION.GA-maven-repository/
 fi
+echo "Launching Maven build"
+echo "=== Maven ===" >> work/build.log
 cd work/jboss-eap-$EAP_SHORT_VERSION-src/
-./build.sh -DskipTests -Drelease=true
+./build.sh -DskipTests -Drelease=true >> ../build.log 2>&1
 cd ../..
 
 # Copy zip files to the base dir, excluding the src files
