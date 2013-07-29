@@ -1,5 +1,12 @@
 #!/bin/bash
 
+function check_command {
+    command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed.  Aborting."; exit 1; }
+}
+check_command wget
+check_command unzip
+check_command javac
+
 if [ "x$1" == "x" ]; then
     EAP_VERSION=6.1.0
 else
