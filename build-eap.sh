@@ -8,7 +8,7 @@ check_command unzip
 check_command javac
 
 if [ "x$1" == "x" ]; then
-    EAP_VERSION=6.1.0
+    EAP_VERSION=6.1.1
 else
     EAP_VERSION=$1
 fi
@@ -77,7 +77,7 @@ fi
 echo "Launching Maven build"
 echo "=== Maven ===" >> work/build.log
 cd work/jboss-eap-$EAP_SHORT_VERSION-src/
-./build.sh -DskipTests -Drelease=true >> ../build.log 2>&1
+./build.sh -DskipTests -Drelease=true #>> ../build.log 2>&1
 cd ../..
 
 # Copy zip files to the base dir, excluding the src files
