@@ -82,10 +82,17 @@ fi
 echo "Launching Maven build"
 echo "=== Maven ===" >> work/build.log
 cd work/jboss-eap-$EAP_SHORT_VERSION-src/
-./build.sh -DskipTests -Drelease=true #>> ../build.log 2>&1
+./build.sh -DskipTests -Drelease=true >> ../build.log 2>&1
 cd ../..
 
 # Copy zip files to the base dir, excluding the src files
 find work/jboss-eap-$EAP_SHORT_VERSION-src/dist/target \( ! -name "jboss*-src.zip" \) -a \( -name "jboss*.zip" \) -exec cp -f {} dist/jboss-eap-$EAP_VERSION.zip \;
 
-echo "Build done. Check your dist directory for the new eap zip file (jboss-eap-$EAP_VERSION.zip)."
+if [ -f dist/‡jboss-eap-$EAP_VERSION.zip ]
+then
+    echo "Build done. Check your dist directory for the new eap zip file (jboss-eap-$EAP_VERSION.zip)."
+    exit 0
+else
+    echo "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
+    exit 1
+fi    
