@@ -88,7 +88,7 @@ cd ../..
 # Copy zip files to the base dir, excluding the src files
 find work/jboss-eap-$EAP_SHORT_VERSION-src/dist/target \( ! -name "jboss*-src.zip" \) -a \( -name "jboss*.zip" \) -exec cp -f {} dist/jboss-eap-$EAP_VERSION.zip \;
 
-if [ -f dist/‡jboss-eap-$EAP_VERSION.zip ]
+if [ -f dist/jboss-eap-$EAP_VERSION.zip ]
 then
     echo "Build done. Check your dist directory for the new eap zip file (jboss-eap-$EAP_VERSION.zip)."
     exit 0
