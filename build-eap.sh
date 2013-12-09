@@ -8,7 +8,7 @@ check_command unzip
 check_command javac
 
 if [ "x$1" == "x" ]; then
-    EAP_VERSION=6.1.1
+    EAP_VERSION=6.2.0
 else
     EAP_VERSION=$1
 fi
