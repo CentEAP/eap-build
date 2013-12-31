@@ -37,7 +37,7 @@ For the moment, it supports EAP 6.0.1, 6.1.0, 6.1.1 and 6.2.0.
 
 Prerequisite and systems supported
 ==================================
-The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip** and **java (JDK)** first.
+The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip**, **patch** and **java (JDK)** first.
 
 It has been tested on the following systems :
 * MacOS X 10.7 and 10.9

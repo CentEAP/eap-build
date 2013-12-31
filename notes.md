@@ -4,12 +4,17 @@
 
 2. Prepare the patch
 
-        cd work/jboss-*-src
-        mvn clean
-        rm -rf local-repo-eap
-        mv work work-done
-        #
-        cd ../..
-        unzip -q -d work download/jboss-eap-6.1.1-src.zip
-        unzip -q -d work download/jboss-eap-6.1.1-maven-repository.zip
-        diff -abru work work-done > src/jboss-eap-$EAP_VERSION.patch
+    EAP_VERSION=6.2.0
+    #
+    cd work/jboss-*-src
+    mvn clean
+    rm -rf local-repo-eap
+    mv work work-done
+    #
+    cd ../..
+    unzip -q -d work download/jboss-eap-$EAP_VERSION-src.zip
+    unzip -q -d work download/jboss-eap-$EAP_VERSION-maven-repository.zip
+    diff -abru work work-done > src/jboss-eap-$EAP_VERSION.patch
+    #
+    md5 -r download/jboss-eap-$EAP_VERSION-src.zip > src/jboss-eap-$EAP_VERSION-src.zip.md5
+    md5 -r download/jboss-eap-$EAP_VERSION-maven-repository.zip > src/jboss-eap-$EAP_VERSION-maven-repository.zip.md5

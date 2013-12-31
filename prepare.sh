@@ -26,3 +26,6 @@ mv work work-done
 unzip -q -d work download/jboss-eap-$EAP_VERSION-src.zip
 unzip -q -d work download/jboss-eap-$EAP_VERSION-maven-repository.zip
 diff -abru work work-done > src/jboss-eap-$EAP_VERSION.patch
+
+md5 -r download/jboss-eap-$EAP_VERSION-src.zip > src/jboss-eap-$EAP_VERSION-src.zip.md5
+md5 -r download/jboss-eap-$EAP_VERSION-maven-repository.zip > src/jboss-eap-$EAP_VERSION-maven-repository.zip.md5
