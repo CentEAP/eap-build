@@ -5,6 +5,7 @@ function check_command {
 }
 check_command wget
 check_command unzip
+check_command patch
 check_command javac
 
 if [ "x$1" == "x" ] 
