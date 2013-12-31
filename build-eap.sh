@@ -7,7 +7,8 @@ check_command wget
 check_command unzip
 check_command javac
 
-if [ "x$1" == "x" ]; then
+if [ "x$1" == "x" ] 
+then
     EAP_VERSION=6.2.0
 else
     EAP_VERSION=$1
@@ -34,6 +35,7 @@ MVN_FILE=jboss-eap-$EAP_VERSION-maven-repository.zip
 function download_and_unzip {    
     URL=$1
     FILENAME=${URL##*/}
+
     if [ ! -f download/$FILENAME ]
     then
         echo "Trying to download $FILENAME."
@@ -41,6 +43,22 @@ function download_and_unzip {
     else
         echo "File $FILENAME already here. No need to download it again."
     fi
+
+    if [ -f src/$FILENAME.md5 ]
+    then
+        if [ -z "`md5 -r download/$FILENAME | diff src/$FILENAME.md5 -`" ]
+        then
+            echo "Checksum verified for $FILENAME"
+        else
+            echo "==== FAIL ===="
+            echo "Checksum verification failed for $FILENAME"
+            echo "=============="
+            exit 1	      
+        fi
+    else
+        echo "WARN : no checksum available for $FILENAME : src/$FILENAME.md5"
+    fi
+
     if [ -f download/$FILENAME ]
     then
         echo "Unzipping $FILENAME"
