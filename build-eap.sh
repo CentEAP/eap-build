@@ -45,9 +45,23 @@ function download_and_unzip {
         echo "File $FILENAME already here. No need to download it again."
     fi
 
-    if [ -f src/$FILENAME.md5 ]
+
+    if command -v md5sum >/dev/null
     then
-        if [ -z "`md5 -r download/$FILENAME | diff src/$FILENAME.md5 -`" ]
+        md5cmd="md5sum"
+    elif command -v md5 >/dev/null
+    then
+        md5cmd="md5 -r"
+    fi
+    
+    if [ ! -f src/$FILENAME.md5 ]
+    then
+        echo "WARN : no checksum available for $FILENAME : src/$FILENAME.md5"
+    elif ! command -v $md5cmd >/dev/null 
+    then
+        echo "WARN : no checksum command available"
+    else
+        if [ -z "`$md5cmd download/$FILENAME | diff src/$FILENAME.md5 -`" ]
         then
             echo "Checksum verified for $FILENAME"
         else
@@ -56,8 +70,6 @@ function download_and_unzip {
             echo "=============="
             exit 1	      
         fi
-    else
-        echo "WARN : no checksum available for $FILENAME : src/$FILENAME.md5"
     fi
 
     if [ -f download/$FILENAME ]
