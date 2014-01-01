@@ -4,6 +4,39 @@ function check_command {
     command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed.  Aborting."; exit 1; }
 }
 
+function check_md5 {
+    FILENAME=$1
+
+    if [ ! -f src/$FILENAME.md5 ]
+    then
+        echo "WARN : no checksum available for $FILENAME : src/$FILENAME.md5"
+        return
+    fi
+
+    # Linux
+    if command -v md5sum >/dev/null
+    then
+        md5_check=`md5sum download/$FILENAME | diff src/$FILENAME.md5 -`
+    # MacOS : beware the double space
+    elif command -v md5 >/dev/null
+    then
+        md5_check=`md5 -r download/$FILENAME | sed 's/ /  /' | diff src/$FILENAME.md5 -`
+    else
+        echo "WARN : no checksum command available"
+        return
+    fi
+
+    if [ -z "$md5_check" ]
+    then
+        echo "Checksum verified for $FILENAME"
+    else
+        echo "==== FAIL ===="
+        echo "Checksum verification failed for $FILENAME"
+        echo "=============="
+        exit 1	      
+    fi
+}
+
 function download_and_unzip {    
     URL=$1
     FILENAME=${URL##*/}
@@ -16,32 +49,7 @@ function download_and_unzip {
         echo "File $FILENAME already here. No need to download it again."
     fi
 
-
-    if command -v md5sum >/dev/null
-    then
-        md5cmd="md5sum"
-    elif command -v md5 >/dev/null
-    then
-        md5cmd="md5 -r"
-    fi
-    
-    if [ ! -f src/$FILENAME.md5 ]
-    then
-        echo "WARN : no checksum available for $FILENAME : src/$FILENAME.md5"
-    elif ! command -v $md5cmd >/dev/null 
-    then
-        echo "WARN : no checksum command available"
-    else
-        if [ -z "`$md5cmd download/$FILENAME | diff src/$FILENAME.md5 -`" ]
-        then
-            echo "Checksum verified for $FILENAME"
-        else
-            echo "==== FAIL ===="
-            echo "Checksum verification failed for $FILENAME"
-            echo "=============="
-            exit 1	      
-        fi
-    fi
+    check_md5 $FILENAME
 
     if [ -f download/$FILENAME ]
     then
@@ -55,3 +63,5 @@ function download_and_unzip {
         exit 1
     fi
 }
+
+
