@@ -3,7 +3,7 @@
 function set_version {
     if [ "x$1" == "x" ] 
     then
-        EAP_VERSION=6.2.0
+        EAP_VERSION=6.2.1
     else
         EAP_VERSION=$1
     fi
@@ -21,7 +21,13 @@ function set_version {
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-$EAP_VERSION-src.zip
-    MVN_FILE=jboss-eap-$EAP_VERSION-maven-repository.zip
+
+    if [ $EAP_VERSION == 6.2.1 ]
+    then
+        MVN_FILE=jboss-eap-$EAP_VERSION-full-maven-repository.zip
+    else
+        MVN_FILE=jboss-eap-$EAP_VERSION-maven-repository.zip
+    fi
 
     echo "Here we go. Building EAP version $EAP_VERSION."
 }

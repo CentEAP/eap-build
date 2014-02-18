@@ -1,0 +1,33 @@
+diff -abru work/jboss-eap-6.2-src/pom.xml work-done/jboss-eap-6.2-src/pom.xml
+--- work/jboss-eap-6.2-src/pom.xml	2014-02-06 00:23:52.000000000 +0100
++++ work-done/jboss-eap-6.2-src/pom.xml	2014-02-18 07:46:16.006085000 +0100
+@@ -124,7 +124,7 @@
+         <version.org.apache.httpcomponents.httpclient>4.2.1-redhat-1</version.org.apache.httpcomponents.httpclient>
+         <version.org.apache.httpcomponents.httpcore>4.2.1-redhat-1</version.org.apache.httpcomponents.httpcore>
+         <version.org.apache.maven>3.1.0</version.org.apache.maven>
+-        <version.org.apache.myfaces.core>2.1.8-redhat-1</version.org.apache.myfaces.core>
++        <version.org.apache.myfaces.core>2.1.8</version.org.apache.myfaces.core>
+         <version.org.apache.neethi>3.0.2.redhat-3</version.org.apache.neethi>
+         <version.org.apache.openjpa>2.1.1</version.org.apache.openjpa>
+         <version.org.apache.santuario>1.5.6.redhat-1</version.org.apache.santuario>
+@@ -156,7 +156,7 @@
+         <version.org.jboss.arquillian.osgi>1.0.3.Final</version.org.jboss.arquillian.osgi>
+         <version.org.jboss.hal.release-stream>2.0.6.Final-redhat-1</version.org.jboss.hal.release-stream>
+         <version.org.jboss.as.jbossweb-native>2.0.10.Final</version.org.jboss.as.jbossweb-native>
+-        <version.org.jboss.byteman>2.0.1-redhat-2</version.org.jboss.byteman>
++        <version.org.jboss.byteman>2.0.1</version.org.jboss.byteman>
+         <version.org.jboss.classfilewriter>1.0.3.Final-redhat-1</version.org.jboss.classfilewriter>
+         <version.org.jboss.common.jboss-common-beans>1.1.0.Final-redhat-1</version.org.jboss.common.jboss-common-beans>
+         <version.org.jboss.jboss-common-core>2.2.17.GA-redhat-2</version.org.jboss.jboss-common-core>
+@@ -253,9 +253,9 @@
+         <version.org.picketbox.picketbox-commons>1.0.0.final-redhat-2</version.org.picketbox.picketbox-commons>
+         <version.org.picketlink>2.1.9.SP2-redhat-1</version.org.picketlink>
+         <version.org.powermock>1.5</version.org.powermock>
+-        <version.org.projectodd.stilts>0.1.26.redhat-3</version.org.projectodd.stilts>
++        <version.org.projectodd.stilts>0.1.26</version.org.projectodd.stilts>
+         <version.org.scannotation>1.0.3.redhat-4</version.org.scannotation>
+-        <version.org.slf4j>1.7.2.redhat-2</version.org.slf4j>
++        <version.org.slf4j>1.7.2</version.org.slf4j>
+         <version.org.eclipse.aether>0.9.0.M3</version.org.eclipse.aether>
+         <version.org.testng>6.1.1</version.org.testng>
+         <version.org.yaml.snakeyaml>1.8-redhat-2</version.org.yaml.snakeyaml>
