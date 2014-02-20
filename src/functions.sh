@@ -122,7 +122,7 @@ function maven_build {
     echo "Launching Maven build"
     echo "=== Maven ===" >> work/build.log
     cd work/jboss-eap-$EAP_SHORT_VERSION-src/
-    ./build.sh -DskipTests -Drelease=true >> ../build.log 2>&1
+    ./build.sh -Dmaven.test.skip=true -Drelease=true >> ../build.log 2>&1
     cd ../.. 
 }
 
