@@ -44,7 +44,7 @@ function set_repository_url {
 function patch_files {
     echo "Patching files"
     echo "=== Patch ===" >> work/build.log
-    patch -p0 < src/jboss-eap-$EAP_VERSION.patch >> work/build.log
+    patch -p0 < src/jboss-eap-$EAP_VERSION.patch >> work/build.log || { echo >&2 "Error applying patch.  Aborting."; exit 1; }
     cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
 }
 
