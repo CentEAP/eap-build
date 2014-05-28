@@ -1,0 +1,11 @@
+--- work/jboss-eap-6.2-src/pom.xml.orig	2014-05-13 12:49:50.000000000 +0200
++++ work/jboss-eap-6.2-src/pom.xml	2014-05-28 19:55:47.000000000 +0200
+@@ -123,7 +123,7 @@
+     <version.org.jboss.spec.javax.el.jboss-el-api_2.2_spec>1.0.4.Final-redhat-1</version.org.jboss.spec.javax.el.jboss-el-api_2.2_spec>
+     <version.org.jboss.web>7.3.1.Final-redhat-1</version.org.jboss.web>
+     <version.org.apache.santuario>1.5.6.redhat-1</version.org.apache.santuario>
+-    <version.org.jboss.jandex>1.0.3.Final-redhat-2</version.org.jboss.jandex>
++    <version.org.jboss.jandex>1.0.3.Final</version.org.jboss.jandex>
+     <version.rhino.js>1.7R2</version.rhino.js>
+     <version.org.apache.xerces>2.9.1.redhat-5</version.org.apache.xerces>
+     <version.org.jboss.spec.javax.security.auth.message.jboss-jaspi-api_1.0_spec>1.0.1.Final-redhat-2</version.org.jboss.spec.javax.security.auth.message.jboss-jaspi-api_1.0_spec>
