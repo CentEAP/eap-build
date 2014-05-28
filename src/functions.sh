@@ -42,6 +42,11 @@ function set_repository_url {
 }
 
 function patch_files {
+    if [ $EAP_SHORT_VERSION == 6.1 ]
+    then
+        portable_dos2unix work/jboss-eap-$EAP_VERSION.GA-maven-repository/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom
+        portable_dos2unix work/jboss-eap-$EAP_VERSION.GA-maven-repository/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom
+    fi
     echo "Patching files"
     echo "=== Patch ===" >> work/build.log
     patch -p0 < src/jboss-eap-$EAP_VERSION.patch >> work/build.log || { echo >&2 "Error applying patch.  Aborting."; exit 1; }
@@ -151,3 +156,7 @@ function make_directory {
     fi    
 }
 
+function portable_dos2unix {
+	cat $1 | col -b > tmp.file
+	mv tmp.file $1
+}
