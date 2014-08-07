@@ -23,6 +23,7 @@ remove_redhat_suffix org.slf4j
 
 mv work work-done
 
+mkdir work
 unzip -q -d work download/jboss-eap-$EAP_VERSION-src.zip
 unzip -q -d work download/jboss-eap-$EAP_VERSION-maven-repository.zip
 diff -abru work/jboss-eap-$EAP_SHORT_VERSION-src/pom.xml work-done/jboss-eap-$EAP_SHORT_VERSION-src/pom.xml > src/jboss-eap-$EAP_VERSION.patch
