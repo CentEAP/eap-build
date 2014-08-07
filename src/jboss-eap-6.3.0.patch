@@ -1,0 +1,23 @@
+--- work/jboss-eap-6.3-src/pom.xml	2014-07-11 12:31:36.000000000 +0200
++++ work-done/jboss-eap-6.3-src/pom.xml	2014-08-07 18:19:37.000000000 +0200
+@@ -168,7 +168,7 @@
+         <version.org.jboss.iiop-client>1.0.0.Final-redhat-2</version.org.jboss.iiop-client>
+         <version.org.jboss.invocation>1.1.2.Final-redhat-1</version.org.jboss.invocation>
+         <version.org.jboss.ironjacamar>1.0.26.Final-redhat-1</version.org.jboss.ironjacamar>
+-        <version.org.jboss.jandex>1.0.3.Final-redhat-2</version.org.jboss.jandex>
++        <version.org.jboss.jandex>1.0.3.Final</version.org.jboss.jandex>
+         <version.org.jboss.jboss-dmr>1.2.0.Final-redhat-1</version.org.jboss.jboss-dmr>
+         <version.org.jboss.jboss-transaction-spi>7.1.0.Final-redhat-1</version.org.jboss.jboss-transaction-spi>
+         <version.org.jboss.jbossts>4.17.21.Final-redhat-2</version.org.jboss.jbossts>
+@@ -255,9 +255,9 @@
+         <version.org.picketbox.picketbox-commons>1.0.0.final-redhat-2</version.org.picketbox.picketbox-commons>
+         <version.org.picketlink>2.5.3.SP10-redhat-1</version.org.picketlink>
+         <version.org.powermock>1.5</version.org.powermock>
+-        <version.org.projectodd.stilts>0.1.26.redhat-4</version.org.projectodd.stilts>
++        <version.org.projectodd.stilts>0.1.26</version.org.projectodd.stilts>
+         <version.org.scannotation>1.0.3.redhat-4</version.org.scannotation>
+-        <version.org.slf4j>1.7.2.redhat-3</version.org.slf4j>
++        <version.org.slf4j>1.7.2</version.org.slf4j>
+         <version.org.eclipse.aether>0.9.0.M3</version.org.eclipse.aether>
+         <version.org.testng>6.1.1</version.org.testng>
+         <version.org.yaml.snakeyaml>1.8-redhat-2</version.org.yaml.snakeyaml>

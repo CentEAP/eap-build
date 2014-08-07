@@ -4,7 +4,7 @@
 
 2. Prepare the patch
 
-    EAP_VERSION=6.2.0
+    EAP_VERSION=6.3.0
     #
     cd work/jboss-*-src
     mvn clean
