@@ -1,6 +1,5 @@
-diff -abru work/jboss-eap-6.2-src/pom.xml work-done/jboss-eap-6.2-src/pom.xml
---- work/jboss-eap-6.2-src/pom.xml	2013-11-21 04:43:04.000000000 +0100
-+++ work-done/jboss-eap-6.2-src/pom.xml	2013-12-09 19:59:05.000000000 +0100
+--- work/jboss-eap-6.2-src/pom.xml	2013-11-20 22:43:04.000000000 +0100
++++ work-done/jboss-eap-6.2-src/pom.xml	2014-08-09 14:02:56.000000000 +0200
 @@ -124,7 +124,7 @@
          <version.org.apache.httpcomponents.httpclient>4.2.1-redhat-1</version.org.apache.httpcomponents.httpclient>
          <version.org.apache.httpcomponents.httpcore>4.2.1-redhat-1</version.org.apache.httpcomponents.httpcore>
@@ -19,6 +18,15 @@ diff -abru work/jboss-eap-6.2-src/pom.xml work-done/jboss-eap-6.2-src/pom.xml
          <version.org.jboss.classfilewriter>1.0.3.Final-redhat-1</version.org.jboss.classfilewriter>
          <version.org.jboss.common.jboss-common-beans>1.1.0.Final-redhat-1</version.org.jboss.common.jboss-common-beans>
          <version.org.jboss.jboss-common-core>2.2.17.GA-redhat-2</version.org.jboss.jboss-common-core>
+@@ -167,7 +167,7 @@
+         <version.org.jboss.iiop-client>1.0.0.Final-redhat-2</version.org.jboss.iiop-client>
+         <version.org.jboss.invocation>1.1.2.Final-redhat-1</version.org.jboss.invocation>
+         <version.org.jboss.ironjacamar>1.0.23.Final-redhat-1</version.org.jboss.ironjacamar>
+-        <version.org.jboss.jandex>1.0.3.Final-redhat-2</version.org.jboss.jandex>
++        <version.org.jboss.jandex>1.0.3.Final</version.org.jboss.jandex>
+         <version.org.jboss.jboss-dmr>1.2.0.Final-redhat-1</version.org.jboss.jboss-dmr>
+         <version.org.jboss.jboss-transaction-spi>7.0.0.Final-redhat-2</version.org.jboss.jboss-transaction-spi>
+         <version.org.jboss.jbossts>4.17.15.Final-redhat-4</version.org.jboss.jbossts>
 @@ -253,9 +253,9 @@
          <version.org.picketbox.picketbox-commons>1.0.0.final-redhat-2</version.org.picketbox.picketbox-commons>
          <version.org.picketlink>2.1.9.SP2-redhat-1</version.org.picketlink>
@@ -31,4 +39,45 @@ diff -abru work/jboss-eap-6.2-src/pom.xml work-done/jboss-eap-6.2-src/pom.xml
          <version.org.eclipse.aether>0.9.0.M3</version.org.eclipse.aether>
          <version.org.testng>6.1.1</version.org.testng>
          <version.org.yaml.snakeyaml>1.8-redhat-2</version.org.yaml.snakeyaml>
-Only in work-done: work
+@@ -6603,20 +6603,6 @@
+                 <updatePolicy>daily</updatePolicy>
+             </snapshots>
+         </repository>
+-        <repository>
+-            <id>jboss-product-repository</id>
+-            <name>JBoss Internal Product Repository</name>
+-            <url>http://download.lab.bos.redhat.com/brewroot/repos/jb-eap-6-rhel-6-build/latest/maven/</url>
+-            <layout>default</layout>
+-            <releases>
+-                <enabled>true</enabled>
+-                <updatePolicy>never</updatePolicy>
+-            </releases>
+-            <snapshots>
+-                <enabled>false</enabled>
+-                <updatePolicy>never</updatePolicy>
+-            </snapshots>
+-        </repository>
+     </repositories>
+ 
+     <pluginRepositories>
+@@ -6646,20 +6632,6 @@
+                 <updatePolicy>daily</updatePolicy>
+             </snapshots>
+         </pluginRepository>
+-        <pluginRepository>
+-            <id>jboss-product-repository</id>
+-            <name>JBoss Internal Product Repository</name>
+-            <url>http://download.lab.bos.redhat.com/brewroot/repos/jb-eap-6-rhel-6-build/latest/maven/</url>
+-            <layout>default</layout>
+-            <releases>
+-                <enabled>true</enabled>
+-                <updatePolicy>never</updatePolicy>
+-            </releases>
+-            <snapshots>
+-                <enabled>false</enabled>
+-                <updatePolicy>never</updatePolicy>
+-            </snapshots>
+-        </pluginRepository>
+     </pluginRepositories>
+ 
+     <!-- Profiles -->
