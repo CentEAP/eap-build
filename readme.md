@@ -18,7 +18,7 @@ If you want to run the script :
     cd eap-build
     ./build-eap.sh
 
-By default, it builds EAP 6.3.0. You can build other versions by passing the number to the build :
+By default, it builds EAP 6.3.1. You can build other versions by passing the number to the build :
 
     ./build-eap.sh 6.0.1
 
@@ -33,7 +33,7 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-For the moment, it supports EAP 6.0.1, 6.1.0, 6.1.1, 6.2.0, 6.2.1., 6.2.2, 6.2.3, 6.2.4, 6.3.0
+For the moment, it supports EAP 6.0.1, 6.1.0, 6.1.1, 6.2.0, 6.2.1., 6.2.2, 6.2.3, 6.2.4, 6.3.0, 6.3.1
 
 Prerequisite and systems supported
 ==================================
@@ -43,3 +43,4 @@ It has been tested on the following systems :
 * MacOS X 10.7 and 10.9
 * CentOS 6.4    after "yum install wget unzip java-1.6.0-openjdk java-1.6.0-openjdk-devel"
 * Ubuntu 12.04  after "apt-get install openjdk-6-jdk"
+* Fedora 20
