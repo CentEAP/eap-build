@@ -1,0 +1,29 @@
+--- work/jboss-eap-6.3-src/pom.xml	2014-10-21 10:04:10.000000000 +0200
++++ work-done/jboss-eap-6.3-src/pom.xml	2014-11-07 13:43:20.739294434 +0100
+@@ -125,7 +125,7 @@
+     <version.org.jboss.spec.javax.el.jboss-el-api_2.2_spec>1.0.4.Final-redhat-1</version.org.jboss.spec.javax.el.jboss-el-api_2.2_spec>
+     <version.org.jboss.web>7.4.9.Final-redhat-1</version.org.jboss.web>
+     <version.org.apache.santuario>1.5.7.redhat-1</version.org.apache.santuario>
+-    <version.org.jboss.jandex>1.0.3.Final-redhat-2</version.org.jboss.jandex>
++    <version.org.jboss.jandex>1.0.3.Final</version.org.jboss.jandex>
+     <version.rhino.js>1.7R2</version.rhino.js>
+     <version.org.apache.xerces>2.9.1.redhat-6</version.org.apache.xerces>
+     <version.org.jboss.spec.javax.security.auth.message.jboss-jaspi-api_1.0_spec>1.0.1.Final-redhat-2</version.org.jboss.spec.javax.security.auth.message.jboss-jaspi-api_1.0_spec>
+@@ -151,7 +151,7 @@
+     <version.org.jboss.jboss-transaction-spi>7.1.0.Final-redhat-1</version.org.jboss.jboss-transaction-spi>
+     <version.org.jboss.spec.javax.transaction.jboss-transaction-api_1.1_spec>1.0.1.Final-redhat-2</version.org.jboss.spec.javax.transaction.jboss-transaction-api_1.1_spec>
+     <version.javax.enterprise>1.0-SP4-redhat-4</version.javax.enterprise>
+-    <version.org.slf4j>1.7.2.redhat-3</version.org.slf4j>
++    <version.org.slf4j>1.7.2</version.org.slf4j>
+     <version.org.jboss.arquillian.core>1.0.0.Final</version.org.jboss.arquillian.core>
+     <version.sun.jaxb>2.2.5.redhat-9</version.sun.jaxb>
+     <version.org.jboss.osgi.framework>2.1.0.Final-redhat-1</version.org.jboss.osgi.framework>
+@@ -240,7 +240,7 @@
+     <version.org.jboss.ejb-client>1.0.26.Final-redhat-1</version.org.jboss.ejb-client>
+     <version.org.hibernate3>3.6.6.Final</version.org.hibernate3>
+     <version.log4j>1.2.16</version.log4j>
+-    <version.org.projectodd.stilts>0.1.26.redhat-4</version.org.projectodd.stilts>
++    <version.org.projectodd.stilts>0.1.26</version.org.projectodd.stilts>
+     <version.commons-cli>1.2.redhat-4</version.commons-cli>
+     <version.org.jboss.spec.javax.faces.jboss-jsf-api_2.1_spec>2.1.28.Final-redhat-1</version.org.jboss.spec.javax.faces.jboss-jsf-api_2.1_spec>
+     <version.org.apache.ant>1.8.3</version.org.apache.ant>
