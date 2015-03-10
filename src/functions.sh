@@ -22,31 +22,10 @@ function set_version {
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-$EAP_VERSION-src.zip
 
-    if [ $EAP_VERSION == 6.2.1 -o $EAP_VERSION == 6.2.2 -o $EAP_VERSION == 6.2.3 -o $EAP_VERSION == 6.2.4 -o $EAP_VERSION == 6.3.1 -o $EAP_VERSION == 6.3.2 -o $EAP_VERSION == 6.3.3 ]
-    then
-        MVN_FILE=jboss-eap-$EAP_VERSION-full-maven-repository.zip
-    else
-        MVN_FILE=jboss-eap-$EAP_VERSION-maven-repository.zip
-    fi
-
     echo "Here we go. Building EAP version $EAP_VERSION."
 }
 
-function set_repository_url {
-    if [ $EAP_SHORT_VERSION == 6.0 ]
-    then
-        export EAP_REPO_URL=file://`pwd`/work/jboss-eap-$EAP_VERSION-maven-repository/
-    else
-        export EAP_REPO_URL=file://`pwd`/work/jboss-eap-$EAP_VERSION.GA-maven-repository/
-    fi
-}
-
 function patch_files {
-    if [ $EAP_SHORT_VERSION == 6.1 ]
-    then
-        portable_dos2unix work/jboss-eap-$EAP_VERSION.GA-maven-repository/org/fusesource/jansi/jansi/1.9-redhat-1/jansi-1.9-redhat-1.pom
-        portable_dos2unix work/jboss-eap-$EAP_VERSION.GA-maven-repository/org/jboss/byteman/byteman/2.0.1-redhat-2/byteman-2.0.1-redhat-2.pom
-    fi
     echo "Patching files"
     echo "=== Patch ===" >> work/build.log
     patch -p0 < src/jboss-eap-$EAP_VERSION.patch >> work/build.log || { echo >&2 "Error applying patch.  Aborting."; exit 1; }
@@ -116,9 +95,6 @@ function download_and_unzip {
         unzip -q -d work download/$FILENAME
         echo "$FILENAME unzipped"
     else
-        echo "==== FAIL ===="
-        echo "I'm unable to download the file. You could download the $MVN_FILE file from http://www.jboss.org/jbossas/downloads or https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?downloadType=distributions&product=appplatform&version=$EAP_VERSION (login required) and put it in the download directory."
-        echo "=============="
         exit 1
     fi
 }
