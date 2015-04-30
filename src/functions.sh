@@ -3,7 +3,7 @@
 function set_version {
     if [ "x$1" == "x" ] 
     then
-        EAP_VERSION=6.3.3
+        EAP_VERSION=6.4.0
     else
         EAP_VERSION=$1
     fi
@@ -29,6 +29,13 @@ function patch_files {
     echo "Patching files"
     echo "=== Patch ===" >> work/build.log
     patch -p0 < src/jboss-eap-$EAP_VERSION.patch >> work/build.log || { echo >&2 "Error applying patch.  Aborting."; exit 1; }
+    # Downloading Maven before the build, so that I can override the settings.xml file
+    if [ -f work/jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh ]
+    then
+        cd work/jboss-eap-$EAP_SHORT_VERSION-src
+        ./tools/download-maven.sh
+        cd ../..
+    fi
     cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
 }
 
