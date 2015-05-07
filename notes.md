@@ -1,10 +1,10 @@
 1. Remove some -redhat-n suffixes
-     
+
     Some RedHat patched artefacts are not provided in the local Maven repository (Maven plug-in + artefacts for unsupported feature). We have to remove the suffixe in order to download the nearest public version.
 
 2. Prepare the patch
 
-    EAP_VERSION=6.3.0
+    EAP_VERSION=6.4.0
     #
     cd work/jboss-*-src
     mvn clean
