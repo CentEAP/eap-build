@@ -1,0 +1,11 @@
+--- work/jboss-eap-6.4-src/pom.xml	2015-07-20 18:13:41.874618474 +0200
++++ work-done/jboss-eap-6.4-src/pom.xml	2015-07-20 18:15:23.937854755 +0200
+@@ -173,7 +173,7 @@
+         <version.org.jboss.iiop-client>1.0.0.Final-redhat-3</version.org.jboss.iiop-client>
+         <version.org.jboss.invocation>1.1.2.Final-redhat-1</version.org.jboss.invocation>
+         <version.org.jboss.ironjacamar>1.0.32.Final-redhat-1</version.org.jboss.ironjacamar>
+-        <version.org.jboss.jandex>1.2.2.Final-redhat-1</version.org.jboss.jandex>
++        <version.org.jboss.jandex>1.2.2.Final</version.org.jboss.jandex>
+         <version.org.jboss.jboss-dmr>1.2.2.Final-redhat-1</version.org.jboss.jboss-dmr>
+         <version.org.jboss.jboss-transaction-spi>7.1.0.Final-redhat-1</version.org.jboss.jboss-transaction-spi>
+         <version.org.jboss.jbossts>4.17.29.Final-redhat-1</version.org.jboss.jbossts>
