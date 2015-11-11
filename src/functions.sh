@@ -20,7 +20,7 @@ function set_version {
         exit 0
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
-    SRC_FILE=jboss-eap-$EAP_VERSION-src.zip
+    SRC_FILE=jboss-eap-${EAP_VERSION/'-alpha'/'.Alpha'}-src.zip
 
     echo "Here we go. Building EAP version $EAP_VERSION."
 }
@@ -37,6 +37,7 @@ function patch_files {
         cd ../..
     fi
     cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
+    cp src/build.conf.xml work/jboss-eap-$EAP_SHORT_VERSION-src/
 }
 
 function check_commands {
