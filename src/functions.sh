@@ -37,7 +37,7 @@ function patch_files {
         cd ../..
     fi
     cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
-    cp src/build.conf.xml work/jboss-eap-$EAP_SHORT_VERSION-src/
+    cp src/build.conf work/jboss-eap-$EAP_SHORT_VERSION-src/
 }
 
 function check_commands {
