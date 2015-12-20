@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 function check_command {
     command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed.  Aborting."; exit 1; }
 }
@@ -61,7 +61,9 @@ then
 fi
 
 download_and_unzip ftp://ftp.redhat.com/redhat/jbeap/$EAP_VERSION/en/source/$SRC_FILE
+set +e
 download_and_unzip http://maven.repository.redhat.com/techpreview/eap6/$EAP_VERSION/$MVN_FILE
+set -e
 
 echo "Patching files"
 echo "=== Patch ===" >> work/build.log
@@ -74,6 +76,7 @@ then
 else
     export EAP_REPO_URL=file://`pwd`/work/jboss-eap-$EAP_VERSION.GA-maven-repository/
 fi
+
 echo "Launching Maven build"
 echo "=== Maven ===" >> work/build.log
 cd work/jboss-eap-$EAP_SHORT_VERSION-src/

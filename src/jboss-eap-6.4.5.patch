@@ -1,5 +1,7 @@
---- work/jboss-eap-6.4-src/pom.xml	2015-11-18 12:25:42.000000000 +0100
-+++ work-done/jboss-eap-6.4-src/pom.xml	2015-12-02 21:33:19.581515666 +0100
+Only in work/jboss-eap-6.4-src: file:
+diff -ru download/jboss-eap-6.4-src/pom.xml work/jboss-eap-6.4-src/pom.xml
+--- download/jboss-eap-6.4-src/pom.xml	2015-11-18 18:25:42.000000000 +0100
++++ work/jboss-eap-6.4-src/pom.xml	2015-12-20 12:00:58.000000000 +0100
 @@ -173,7 +173,7 @@
          <version.org.jboss.iiop-client>1.0.0.Final-redhat-3</version.org.jboss.iiop-client>
          <version.org.jboss.invocation>1.1.2.Final-redhat-1</version.org.jboss.invocation>
@@ -9,3 +11,17 @@
          <version.org.jboss.jboss-dmr>1.2.2.Final-redhat-1</version.org.jboss.jboss-dmr>
          <version.org.jboss.jboss-transaction-spi>7.1.0.Final-redhat-1</version.org.jboss.jboss-transaction-spi>
          <version.org.jboss.jbossts>4.17.30.Final-redhat-1</version.org.jboss.jbossts>
+diff -ru download/jboss-eap-6.4-src/tools/download-maven.sh work/jboss-eap-6.4-src/tools/download-maven.sh
+--- download/jboss-eap-6.4-src/tools/download-maven.sh	2015-11-18 18:25:42.000000000 +0100
++++ work/jboss-eap-6.4-src/tools/download-maven.sh	2015-12-20 12:05:41.000000000 +0100
+@@ -21,3 +21,4 @@
+ unzip maven.zip
+ rm maven.zip
+ mv apache-maven* maven
++cp ../../../src/settings.xml maven/conf/
+Only in work/jboss-eap-6.4-src/tools/maven: LICENSE
+Only in work/jboss-eap-6.4-src/tools/maven: NOTICE
+Only in work/jboss-eap-6.4-src/tools/maven: README.txt
+Only in work/jboss-eap-6.4-src/tools/maven: bin
+Only in work/jboss-eap-6.4-src/tools/maven: boot
+Only in work/jboss-eap-6.4-src/tools/maven/conf: logging
