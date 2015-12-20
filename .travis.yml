@@ -4,3 +4,11 @@ script:
 cache:
   directories:
   - $HOME/.m2
+
+deploy:
+  provider: releases
+  api_key: "d5df30f37cad9fd68630a513399babfe14bf360d"
+  file: "dist/jboss-eap-6.4.zip"
+  skip_cleanup: true
+  on:
+    tags: true
