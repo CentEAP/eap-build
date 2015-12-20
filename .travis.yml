@@ -1,0 +1,14 @@
+language: java
+script:
+- "./build-eap.sh  6.4.5"
+cache:
+  directories:
+  - "$HOME/.m2"
+deploy:
+  provider: releases
+  api_key:
+    secure: HolwopoNnZd4VaZWWRnNpuibGT/ZNHWwV3PEhi1bxzlXle3ufM6eVQ+AfQDJ4CLPpMhpO3Wxx0BRvqtZPH7HvuBbZDJ/iA/xRiulo8gOV3dUZQ35gJaj8iOh/3g6kTiCnmIerwEtCHhCD4LxNIAHNZ78/T76b/o7p0y3AzqKeGP1rNr2AdKbWSCs2T3BTQ4HgfGuA7y2zFdF2jaBrPcELToe7YCpLWbgn471m3cOq18EVOuExT+RJP9VfrchFDXY7JaoGOnM3Z6dK2Igg4jNfI2TVHwzNAJp5PzvaZMbCLXHzscCBkastTEqlDNyB5srokL6qFCMHPArSxIHls68gMwLVU1pB0fWqr4rBhyOwuMmTu5ATpAPj16bh0JBoprGNimYLLYMjpF87AQJmqRQ0WfOi2Sxjcbep8naGrPr2apCq6/kILtzE3Ae9RwdXphnwGt/horCS3v3vyCqZeEwVvybY87ysdexlAWSRpJk7dYGIBhv8p6yIzX8WtmekmgRdhyDNh8sx2IXaizNOnlmo9nZ/CRJCvgNJ3cnzBaAdO42JTgot7//3Fdrluulb+24h8O/8TlVE6A05VDTfCW/DlCHSp4jgdtLD/TG7vgq1gHjZdB+9urltj+ZcxCg1haXmhAUVpaxkt3ruFokwK33/vDahR+SWYj8FqKEtrvCe2I=
+  file: dist/jboss-eap-6.4.zip
+  on:
+    repo: visik7/eap-build
+    tags: true
