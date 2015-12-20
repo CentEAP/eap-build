@@ -15,7 +15,10 @@ WORKDIR /opt
 RUN wget https://github.com/visik7/eap-build/releases/download/6.4.5/jboss-eap-6.4.zip
 RUN unzip jboss-eap-6.4.zip
 RUN ln -s jboss-eap-6.4 jboss
+WORKDIR /opt/jboss/bin
+RUN /opt/jboss/bin/add-user.sh -u admin -p Eap2015!
 WORKDIR /opt/jboss
-EXPOSE 9990
-ENTRYPOINT ["./bin/domain.sh"]
+EXPOSE 9990 8009 
+ENTRYPOINT ["./bin/standalone.sh"]
+CMD ["-c", "standalone-full-ha.xml"]
 
