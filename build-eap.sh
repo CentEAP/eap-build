@@ -80,7 +80,7 @@ fi
 echo "Launching Maven build"
 echo "=== Maven ===" >> work/build.log
 cd work/jboss-eap-$EAP_SHORT_VERSION-src/
-./build.sh -DskipTests -Drelease=true 
+./build.sh -DskipTests -Drelease=true | grep "[INFO]"
 #-Dmaven.repo.local=$EAP_REPO_URL >> ../build.log 2>&1
 cd ../..
 
