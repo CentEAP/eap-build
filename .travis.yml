@@ -1,5 +1,3 @@
 language: java
 script:
-    - build-eap.sh
-
-
+    - cd eap-build && ./build-eap.sh
