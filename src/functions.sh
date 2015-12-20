@@ -33,7 +33,7 @@ function patch_files {
     if [ -f work/jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh ]
     then
         cd work/jboss-eap-$EAP_SHORT_VERSION-src
-        ./tools/download-maven.sh
+        ./tools/download-maven.sh >/dev/null
         cd ../..
     fi
     cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/
@@ -109,9 +109,15 @@ function download_and_unzip {
 
 function maven_build {
     echo "Launching Maven build"
-    echo "=== Maven ===" >> work/build.log
     cd work/jboss-eap-$EAP_SHORT_VERSION-src/
-    ./build.sh -DskipTests -Drelease=true $1 | tee -a ../build.log | grep "\[INFO\]"
+    if [ "$MVN_OUTPUT" = "1" ]
+    then
+        echo "=== Maven ===" | tee -a ../build.log
+         ./build.sh -DskipTests -Drelease=true $1 | tee -a ../build.log | grep -E "Building JBoss|ERROR|BUILD SUCCESS"
+    else
+        echo "=== Maven ===" >> ../build.log
+        ./build.sh -DskipTests -Drelease=true $1 >> ../build.log 2>&1
+    fi
     cd ../.. 
 }
 

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/visik7/eap-build.svg)](https://travis-ci.org/visik7/eap-build)
+[![Build Status](https://travis-ci.org/hasalex/eap-build.svg)](https://travis-ci.org/hasalex/eap-build)
 
 Building JBoss EAP 6, or something similar...
 
