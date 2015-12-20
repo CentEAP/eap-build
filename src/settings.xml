@@ -72,11 +72,41 @@
       </pluginRepositories>
     </profile>
 
+    <profile>
+      <id>jboss-eap-ga-maven-repository</id>
+      <repositories>
+        <repository>
+          <id>jboss-eap-ga</id>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>jboss-eap-ga-maven-plugin-repository</id>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+
   </profiles>
 
   <activeProfiles>
     <activeProfile>public-repositories</activeProfile>
     <activeProfile>jboss-eap-maven-repository</activeProfile>
+	<activeProfile>jboss-eap-ga-maven-repository</activeProfile>
   </activeProfiles>
 
 </settings>
