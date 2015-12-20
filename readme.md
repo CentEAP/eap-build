@@ -1,3 +1,6 @@
+![alt tag](https://travis-ci.org/visik7/eap-build.svg)
+
+
 Building JBoss EAP 6, or something similar...
 
 Why ?
