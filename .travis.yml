@@ -1,0 +1,9 @@
+language: java
+env:
+- MVN_OUTPUT=1
+script:
+- "./build-eap.sh"
+cache:
+  directories:
+  - "$HOME/.m2"
+
