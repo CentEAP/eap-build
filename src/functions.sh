@@ -120,7 +120,7 @@ function maven_build {
     if [ "$MVN_OUTPUT" = "1" ]
     then
         echo "=== Maven ===" | tee -a ../build.log
-         ./build.sh -DskipTests -Drelease=true $1 | tee -a ../build.log | grep -E "Building JBoss|ERROR|BUILD SUCCESS"
+         ./build.sh -DskipTests -Drelease=true $1 | tee -a ../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
     else
         echo "=== Maven ===" >> ../build.log
         ./build.sh -DskipTests -Drelease=true $1 >> ../build.log 2>&1

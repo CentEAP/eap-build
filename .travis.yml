@@ -1,9 +1,16 @@
 language: java
-env:
-- MVN_OUTPUT=1
+jdk:
+  - oraclejdk7
+  - oraclejdk8
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+before_script: 
+  - sudo rm /etc/mavenrc
+  - export MVN_OUTPUT=1
 script:
-- "./build-eap.sh"
+  - ./build-eap.sh
 cache:
   directories:
-  - "$HOME/.m2"
-
+  - $HOME/.m2
