@@ -17,7 +17,7 @@
      </modules>
  
      <build>
-@@ -836,6 +835,28 @@
+@@ -836,6 +835,22 @@
  
      <dependencyManagement>
          <dependencies>
@@ -36,12 +36,6 @@
 +                <artifactId>wildfly-subsystem-test</artifactId>
 +                <version>${version.org.wildfly.core.test}</version>
 +                <type>pom</type>
-+            </dependency>
-+            <dependency>
-+                <groupId>org.wildfly.core</groupId>
-+                <artifactId>wildfly-core-feature-pack</artifactId>
-+                <version>${version.org.wildfly.core.test}</version>
-+                <type>zip</type>
 +            </dependency>
  
              <!-- Import the core parent to get all the managed dependencies from core -->

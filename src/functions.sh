@@ -10,7 +10,7 @@ function set_version {
 
     if [ ! -f src/jboss-eap-$EAP_VERSION.patch ]
     then
-        echo "Version $EAP_VERSION is not supported, versions supported are :" `find src -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9](-[a-z]*)?'`
+        echo "Version $EAP_VERSION is not supported, versions supported are :" `f   ind src -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9](-[a-z]*)?'`
         exit 1
     fi
 
@@ -41,6 +41,8 @@ function patch_files {
     if grep -q '-beta' <<<$EAP_VERSION
     then
         cp src/settings-ea.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/settings.xml
+        # Maybe a wrong version in EAP 7.0.0-beta pom.xml
+        find work/jboss-eap-$EAP_SHORT_VERSION-src/ -type f -print0 | xargs -0 sed -i 's/redhat-SNAPSHOT/redhat-1/g'
     else
         cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/settings.xml
     fi
@@ -90,7 +92,8 @@ function check_md5 {
     fi
 }
 
-function download_and_unzip {    
+function download_and_unzip {
+echo $1
     URL=$1
     FILENAME=${URL##*/}
 
@@ -114,15 +117,40 @@ function download_and_unzip {
     fi
 }
 
+function build_core {
+    CORE_EAP_VERSION=$(get_module_version org.wildfly.core)
+    CORE_PUBLIC_VERSION=${CORE_EAP_VERSION%%-redhat*}
+
+    if [ -z "$CORE_PUBLIC_VERSION" ]
+    then
+        echo "No WildFly Core version found, skipping!"
+    else
+        download_and_unzip "https://github.com/wildfly/wildfly-core/archive/$CORE_PUBLIC_VERSION.zip"
+        wget https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-feature-pack/$CORE_EAP_VERSION/wildfly-core-feature-pack-$CORE_EAP_VERSION.pom -O pom.xml
+
+        echo "Launching Maven build for core"
+        cd work/wildfly-core-$CORE_PUBLIC_VERSION/core-feature-pack
+        if [ "$MVN_OUTPUT" = "1" ]
+        then
+            echo "=== Maven build for core ===" | tee -a ../../build.log
+            mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
+        else
+            echo "=== Maven build for core ===" >> ../../build.log
+            mvn install -s ../../../src/settings-ea.xml >> ../../build.log 2>&1
+        fi
+        cd ../../..
+    fi
+}
+
 function maven_build {
     echo "Launching Maven build"
     cd work/jboss-eap-$EAP_SHORT_VERSION-src/
     if [ "$MVN_OUTPUT" = "1" ]
     then
-        echo "=== Maven ===" | tee -a ../build.log
+        echo "=== Main Maven build ===" | tee -a ../build.log
          ./build.sh -DskipTests -Drelease=true $1 | tee -a ../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
     else
-        echo "=== Maven ===" >> ../build.log
+        echo "=== Main Maven build ===" >> ../build.log
         ./build.sh -DskipTests -Drelease=true $1 >> ../build.log 2>&1
     fi
     cd ../.. 
@@ -157,3 +185,8 @@ function portable_dos2unix {
 	cat $1 | col -b > tmp.file
 	mv tmp.file $1
 }
+
+function get_module_version {
+    grep "<version.$1>" work/jboss-eap-7.0-src/pom.xml | sed -e "s/<version.$1>\(.*\)<\/version.$1>/\1/" | sed 's/ //g'
+}
+
