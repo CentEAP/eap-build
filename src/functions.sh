@@ -126,11 +126,15 @@ function build_core {
         echo "No WildFly Core version found, skipping!"
     else
         download_and_unzip "https://github.com/wildfly/wildfly-core/archive/$CORE_PUBLIC_VERSION.zip"
+        cd work/wildfly-core-$CORE_PUBLIC_VERSION/core-feature-pack
         wget https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-feature-pack/$CORE_EAP_VERSION/wildfly-core-feature-pack-$CORE_EAP_VERSION.pom -O pom.xml
 
         echo "Launching Maven build for core"
-        cd work/wildfly-core-$CORE_PUBLIC_VERSION/core-feature-pack
-        if [ "$MVN_OUTPUT" = "1" ]
+        if [ "$MVN_OUTPUT" = "2" ]
+        then
+            echo "=== Maven build for core ===" | tee -a ../../build.log
+            mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log
+        elif [ "$MVN_OUTPUT" = "1" ]
         then
             echo "=== Maven build for core ===" | tee -a ../../build.log
             mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
@@ -145,7 +149,11 @@ function build_core {
 function maven_build {
     echo "Launching Maven build"
     cd work/jboss-eap-$EAP_SHORT_VERSION-src/
-    if [ "$MVN_OUTPUT" = "1" ]
+    if [ "$MVN_OUTPUT" = "2" ]
+    then
+        echo "=== Main Maven build ===" | tee -a ../build.log
+         ./build.sh -DskipTests -Drelease=true $1 | tee -a ../build.log
+    elif [ "$MVN_OUTPUT" = "1" ]
     then
         echo "=== Main Maven build ===" | tee -a ../build.log
          ./build.sh -DskipTests -Drelease=true $1 | tee -a ../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
