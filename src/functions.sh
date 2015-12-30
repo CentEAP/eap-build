@@ -10,7 +10,7 @@ function set_version {
 
     if [ ! -f src/jboss-eap-$EAP_VERSION.patch ]
     then
-        echo "Version $EAP_VERSION is not supported, versions supported are :" `f   ind src -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9](-[a-z]*)?'`
+        echo "Version $EAP_VERSION is not supported, versions supported are :" `find src -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9](-[a-z]*)?'`
         exit 1
     fi
 
