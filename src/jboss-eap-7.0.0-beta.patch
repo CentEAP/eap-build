@@ -1,9 +1,11 @@
 --- work/jboss-eap-7.0-src/pom.xml	2015-11-26 01:19:36.000000000 +0100
 +++ work/jboss-eap-7.0-src/pom-work.xml	2015-12-21 23:03:08.393617849 +0100
-@@ -218,6 +218,7 @@
+@@ -217,7 +217,8 @@
+         <version.org.syslog4j>0.9.30</version.org.syslog4j>
          <version.org.wildfly.build-tools>1.1.0.Final</version.org.wildfly.build-tools>
          <version.org.wildfly.checkstyle-config>1.0.4.Final</version.org.wildfly.checkstyle-config>
-         <version.org.wildfly.core>2.0.3.Final-redhat-1</version.org.wildfly.core>
+-        <version.org.wildfly.core>2.0.3.Final-redhat-1</version.org.wildfly.core>
++        <version.org.wildfly.core>2.0.3.Final</version.org.wildfly.core>
 +        <version.org.wildfly.core.test>2.0.3.Final</version.org.wildfly.core.test>
          <version.org.wildfly.arquillian>1.0.2.Final</version.org.wildfly.arquillian>
          <version.org.yaml.snakeyaml>1.15.0.redhat-1</version.org.yaml.snakeyaml>
