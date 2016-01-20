@@ -127,7 +127,7 @@ function build_core {
     else
         download_and_unzip "https://github.com/wildfly/wildfly-core/archive/$CORE_PUBLIC_VERSION.zip"
         cd work/wildfly-core-$CORE_PUBLIC_VERSION/core-feature-pack
-        wget https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-feature-pack/$CORE_EAP_VERSION/wildfly-core-feature-pack-$CORE_EAP_VERSION.pom -O   .xml
+        wget https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-feature-pack/$CORE_EAP_VERSION/wildfly-core-feature-pack-$CORE_EAP_VERSION.pom -O pom.xml
 
         echo "Launching Maven build for core"
         if [ "$MVN_OUTPUT" = "2" ]
