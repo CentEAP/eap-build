@@ -127,20 +127,20 @@ function build_core {
     else
         download_and_unzip "https://github.com/wildfly/wildfly-core/archive/$CORE_PUBLIC_VERSION.zip"
         cd work/wildfly-core-$CORE_PUBLIC_VERSION/core-feature-pack
-        wget https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-feature-pack/$CORE_EAP_VERSION/wildfly-core-feature-pack-$CORE_EAP_VERSION.pom -O pom.xml
+        wget https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-feature-pack/$CORE_EAP_VERSION/wildfly-core-feature-pack-$CORE_EAP_VERSION.pom -O   .xml
 
         echo "Launching Maven build for core"
         if [ "$MVN_OUTPUT" = "2" ]
         then
             echo "=== Maven build for core ===" | tee -a ../../build.log
-            mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log
+            ../../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log
         elif [ "$MVN_OUTPUT" = "1" ]
         then
             echo "=== Maven build for core ===" | tee -a ../../build.log
-            mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
+            ../../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
         else
             echo "=== Maven build for core ===" >> ../../build.log
-            mvn install -s ../../../src/settings-ea.xml >> ../../build.log 2>&1
+            ../../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../../src/settings-ea.xml >> ../../build.log 2>&1
         fi
         cd ../../..
     fi
