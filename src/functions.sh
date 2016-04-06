@@ -3,7 +3,7 @@
 function set_version {
     if [ "x$1" == "x" ] 
     then
-        EAP_VERSION=6.4.6
+        EAP_VERSION=6.4.7
     else
         EAP_VERSION=$1
     fi
