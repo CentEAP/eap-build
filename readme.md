@@ -20,7 +20,7 @@ If you want to run the script :
     cd eap-build
     ./build-eap.sh
 
-By default, it builds EAP 6.4.6. You can build other versions by passing the number to the build :
+By default, it builds EAP 6.4.7. You can build other versions by passing the number to the build :
 
     ./build-eap.sh 6.2.2
 
@@ -35,7 +35,7 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-For the moment, it supports 6.2.0, 6.2.1, 6.2.2, 6.2.3, 6.2.4, 6.3.0, 6.3.1, 6.3.2, 6.3.3, 6.4.0, 6.4.1, 6.4.2, 6.4.3, 6.4.4, 6.4.5, 6.4.6, 7.0.0-alpha,7.0.0-beta. 
+For the moment, it supports 6.2.0, 6.2.1, 6.2.2, 6.2.3, 6.2.4, 6.3.0, 6.3.1, 6.3.2, 6.3.3, 6.4.0, 6.4.1, 6.4.2, 6.4.3, 6.4.4, 6.4.5, 6.4.6, 6.4.7, 7.0.0-alpha,7.0.0-beta.
 
 For older versions (6.0.x, 6.1.x), you'll have to checkout the matching tag.
 
