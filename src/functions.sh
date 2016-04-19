@@ -68,8 +68,13 @@ function check_md5 {
         return
     fi
 
+    # Cygwin
+    if uname|grep -i cygwin >/dev/null
+    then
+        check_commands sed
+        md5_check=`md5sum download/$FILENAME | sed 's/ \*/  /' | diff src/$FILENAME.md5 -`
     # Linux
-    if command -v md5sum >/dev/null
+    elif command -v md5sum >/dev/null
     then
         md5_check=`md5sum download/$FILENAME | diff src/$FILENAME.md5 -`
     # MacOS : beware the double space
