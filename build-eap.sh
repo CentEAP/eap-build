@@ -2,7 +2,7 @@
 
 source src/functions.sh
 
-check_commands wget unzip patch javac grep
+check_commands wget unzip patch javac grep curl
 set_version $1
 make_directory -f work
 make_directory download
