@@ -1,14 +1,12 @@
 language: java
-jdk:
-  - oraclejdk7
-  - oraclejdk8
-env:
-  - EAP_VERSION=6.4.7
-  - EAP_VERSION=7.0.0
 matrix:
-  exclude:
+  include:
     - jdk: oraclejdk7
-      env: EAP_VERSION=7.0.0
+      env: EAP_VERSION=6.4.7
+    - jdk: oraclejdk8
+      env: EAP_VERSION=6.4.7
+    - jdk: oraclejdk8
+      env: EAP_VERSION=
 addons:
   apt:
     packages:
