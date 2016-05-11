@@ -49,7 +49,7 @@
       <repositories>
         <repository>
           <id>jboss-eap</id>
-          <url>https://maven.repository.redhat.com/techpreview/all/</url>
+          <url>https://maven.repository.redhat.com/ga/</url>
           <releases>
             <enabled>true</enabled>
           </releases>
@@ -61,7 +61,7 @@
       <pluginRepositories>
         <pluginRepository>
           <id>jboss-eap-maven-plugin-repository</id>
-          <url>https://maven.repository.redhat.com/techpreview/all/</url>
+          <url>https://maven.repository.redhat.com/ga/</url>
           <releases>
             <enabled>true</enabled>
           </releases>

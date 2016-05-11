@@ -3,7 +3,7 @@
 function set_version {
     if [ "x$1" == "x" ] 
     then
-        EAP_VERSION=6.4.7
+        EAP_VERSION=7.0.0
     else
         EAP_VERSION=$1
     fi
@@ -21,8 +21,6 @@ function set_version {
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
-    SRC_FILE=${SRC_FILE/'-alpha'/'.Alpha'}
-    SRC_FILE=${SRC_FILE/'-beta'/'.Beta'}
 
     echo "Here we go. Building EAP version $EAP_VERSION."
 }
@@ -38,14 +36,7 @@ function patch_files {
         ./tools/download-maven.sh >/dev/null
         cd ../..
     fi
-    if grep -q '-beta' <<<$EAP_VERSION
-    then
-        cp src/settings-ea.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/settings.xml
-        # Maybe a wrong version in EAP 7.0.0-beta pom.xml
-        find work/jboss-eap-$EAP_SHORT_VERSION-src/ -type f -print0 | xargs -0 sed -i 's/redhat-SNAPSHOT/redhat-1/g'
-    else
-        cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/settings.xml
-    fi
+    cp src/settings.xml work/jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/conf/settings.xml
     cp src/build.conf work/jboss-eap-$EAP_SHORT_VERSION-src/
 }
 
@@ -114,9 +105,16 @@ echo $1
 
     if [ -f download/$FILENAME ]
     then
-        echo "Unzipping $FILENAME"
-        unzip -q -d work download/$FILENAME
-        echo "$FILENAME unzipped"
+        if [[ $FILENAME == *zip ]]
+        then
+            echo "Unzipping $FILENAME"
+            unzip -q -d work download/$FILENAME
+            echo "$FILENAME unzipped"
+        else
+            echo "Decompressing $FILENAME"
+            tar -xzf download/$FILENAME -C work
+            echo "$FILENAME decompressed"
+        fi
     else
         exit 1
     fi
@@ -124,30 +122,36 @@ echo $1
 
 function build_core {
     CORE_EAP_VERSION=$(get_module_version org.wildfly.core)
-    CORE_PUBLIC_VERSION=${CORE_EAP_VERSION%%-redhat*}
 
-    if [ -z "$CORE_PUBLIC_VERSION" ]
+    if [ -z "$CORE_EAP_VERSION" ]
     then
         echo "No WildFly Core version found, skipping!"
     else
-        download_and_unzip "https://github.com/wildfly/wildfly-core/archive/$CORE_PUBLIC_VERSION.zip"
-        cd work/wildfly-core-$CORE_PUBLIC_VERSION/core-feature-pack
-        wget https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-feature-pack/$CORE_EAP_VERSION/wildfly-core-feature-pack-$CORE_EAP_VERSION.pom -O pom.xml
+        download_and_unzip https://maven.repository.redhat.com/earlyaccess/org/wildfly/core/wildfly-core-parent/$CORE_EAP_VERSION/wildfly-core-parent-$CORE_EAP_VERSION-project-sources.tar.gz
+
+        if [ -f src/wildfly-core-$CORE_EAP_VERSION.patch ]
+        then
+            echo "Patching core files"
+            echo "=== Patch Core ===" >> work/build.log
+            patch -p0 < src/wildfly-core-$CORE_EAP_VERSION.patch >> work/build.log || { echo >&2 "Error applying patch.  Aborting."; exit 1; }
+        fi
+
+        cd work/wildfly-core-parent-$CORE_EAP_VERSION
 
         echo "Launching Maven build for core"
         if [ "$MVN_OUTPUT" = "2" ]
         then
-            echo "=== Maven build for core ===" | tee -a ../../build.log
-            ../../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log
+            echo "=== Maven build for core ===" | tee -a ../build.log
+            ../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../src/settings.xml -DskipTests | tee -a ../build.log
         elif [ "$MVN_OUTPUT" = "1" ]
         then
-            echo "=== Maven build for core ===" | tee -a ../../build.log
-            ../../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../../src/settings-ea.xml | tee -a ../../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
+            echo "=== Maven build for core ===" | tee -a ../build.log
+            ../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../src/settings.xml -DskipTests | tee -a ../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
         else
-            echo "=== Maven build for core ===" >> ../../build.log
-            ../../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../../src/settings-ea.xml >> ../../build.log 2>&1
+            echo "=== Maven build for core ===" >> ../build.log
+            ../jboss-eap-$EAP_SHORT_VERSION-src/tools/maven/bin/mvn install -s ../../src/settings.xml -DskipTests >> ../build.log 2>&1
         fi
-        cd ../../..
+        cd ../..
     fi
 }
 
