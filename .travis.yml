@@ -3,12 +3,12 @@ jdk:
   - oraclejdk7
   - oraclejdk8
 env:
-  - EAP_VERSION=
-  - EAP_VERSION=7.0.0-beta
+  - EAP_VERSION=6.4.7
+  - EAP_VERSION=7.0.0
 matrix:
   exclude:
     - jdk: oraclejdk7
-      env: EAP_VERSION=7.0.0-beta
+      env: EAP_VERSION=7.0.0
 addons:
   apt:
     packages:
