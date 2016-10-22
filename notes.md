@@ -1,3 +1,6 @@
+Notes for EAP 6
+=====
+
 1. Remove some -redhat-n suffixes
 
     Some RedHat patched artefacts are not provided in the local Maven repository (Maven plug-in + artefacts for unsupported feature). We have to remove the suffixe in order to download the nearest public version.
