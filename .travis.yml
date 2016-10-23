@@ -10,6 +10,7 @@ matrix:
 addons:
   apt:
     packages:
+      - xmlstarlet
       - oracle-java8-installer
 before_script: 
   - sudo rm /etc/mavenrc
