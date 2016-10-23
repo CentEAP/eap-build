@@ -3,9 +3,10 @@
 function set_version {
     if [ "x$1" == "x" ] 
     then
-        EAP_VERSION=7.0.2
+        EAP_VERSION=$(get_default_version)
     else
         EAP_VERSION=$1
+        is_supported_version $EAP_VERSION
     fi
 
     if [ -f dist/jboss-eap-$EAP_VERSION.zip ]
@@ -97,5 +98,23 @@ function maven_build {
 
 function get_module_version {
     grep "<version.$1>" work/jboss-eap-7.0-src/pom.xml | sed -e "s/<version.$1>\(.*\)<\/version.$1>/\1/" | sed 's/ //g'
+}
+
+function is_supported_version {
+    set +e
+    supported_versions=$(get_supported_versions)
+    supported_version=$(echo "$supported_versions," | grep -P "$1,")
+    if [ -z $supported_version ]
+    then
+        echo "Version $1 is not supported. Supported versions are $supported_versions"
+        exit 1
+    fi
+    set -e
+}
+function get_supported_versions {
+    grep 'versions' src/jboss-eap-7.properties | sed -e "s/versions=//g"
+}
+function get_default_version {
+    echo $(get_supported_versions) | sed s/,/\\n/g | sort | tac | sed -n '1p'
 }
 
