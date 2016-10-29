@@ -13,7 +13,7 @@ function check_command {
 function check_md5 {
     FILENAME=$1
 
-    if [ ! -f src/$FILENAME.md5 ]
+    if [ ! -f download/$FILENAME.md5 ]
     then
         echo "WARN : no checksum available for $FILENAME : src/$FILENAME.md5"
         return
@@ -23,15 +23,15 @@ function check_md5 {
     if uname|grep -i cygwin >/dev/null
     then
         check_commands sed
-        md5_check=`md5sum download/$FILENAME | sed 's/ \*/  /' | diff src/$FILENAME.md5 -`
+        md5_check=`md5sum download/$FILENAME | sed 's/ \*/  /' | diff download/$FILENAME.md5 -`
     # Linux
     elif command -v md5sum >/dev/null
     then
-        md5_check=`md5sum download/$FILENAME | diff src/$FILENAME.md5 -`
+        md5_check=`md5sum download/$FILENAME | diff download/$FILENAME.md5 -`
     # MacOS : beware the double space
     elif command -v md5 >/dev/null
     then
-        md5_check=`md5 -r download/$FILENAME | sed 's/ /  /' | diff src/$FILENAME.md5 -`
+        md5_check=`md5 -r download/$FILENAME | sed 's/ /  /' | diff download/$FILENAME.md5 -`
     else
         echo "WARN : no checksum command available"
         return
@@ -48,6 +48,20 @@ function check_md5 {
     fi
 }
 
+function download_md5 {
+    URL=$1
+    FILENAME=${URL##*/}
+    DIR_URL=${URL%/*}
+
+    if [[ "$URL" == *"ftp.redhat.com"* ]]
+    then
+        wget -O - $DIR_URL/MD5SUM | sed "s/$FILENAME/download\/$FILENAME/g" > download/$FILENAME.md5
+    else
+        wget  download/$FILENAME.md5 $DIR_URL/$FILENAME.md5
+        echo "  download/$FILENAME" >> download/$FILENAME.md5
+    fi 
+}
+
 function download_and_unzip {
 echo $1
     URL=$1
@@ -61,6 +75,7 @@ echo $1
         echo "File $FILENAME already here. No need to download it again."
     fi
 
+    download_md5 $URL
     check_md5 $FILENAME
 
     if [ -f download/$FILENAME ]
