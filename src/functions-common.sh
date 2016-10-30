@@ -12,32 +12,32 @@ function check_command {
 
 function check_md5 {
     FILENAME=$1
+    STATUS=0
 
     if [ ! -f download/$FILENAME.md5 ]
     then
-        echo "WARN : no checksum available for $FILENAME : src/$FILENAME.md5"
+        echo "WARN : no checksum available for $FILENAME : download/$FILENAME.md5"
         return
     fi
 
-    # Cygwin
-    if uname|grep -i cygwin >/dev/null
+    # Linux and Cygwin
+    if command -v md5sum >/dev/null
     then
-        check_commands sed
-        md5_check=`md5sum download/$FILENAME | sed 's/ \*/  /' | diff download/$FILENAME.md5 -`
-    # Linux
-    elif command -v md5sum >/dev/null
-    then
-        md5_check=`md5sum download/$FILENAME | diff download/$FILENAME.md5 -`
+        md5sum -c download/$FILENAME.md5 || STATUS=$?
     # MacOS : beware the double space
     elif command -v md5 >/dev/null
     then
-        md5_check=`md5 -r download/$FILENAME | sed 's/ /  /' | diff download/$FILENAME.md5 -`
+        check_commands cut
+        if [ "$(md5 -q download/$FILENAME)" != "$(cat download/$FILENAME.md5 | cut -d ' ' -f 1)" ]
+        then
+            STATUS=1
+        fi
     else
         echo "WARN : no checksum command available"
         return
     fi
 
-    if [ -z "$md5_check" ]
+    if [ "$STATUS" == "0" ]
     then
         echo "Checksum verified for $FILENAME"
     else
@@ -52,18 +52,24 @@ function download_md5 {
     URL=$1
     FILENAME=${URL##*/}
     DIR_URL=${URL%/*}
+    STATUS=0
 
     if [[ "$URL" == *"ftp.redhat.com"* ]]
     then
-        wget -O - $DIR_URL/MD5SUM | sed "s/$FILENAME/download\/$FILENAME/g" > download/$FILENAME.md5
+        wget -O download/$FILENAME.md5 $DIR_URL/MD5SUM || STATUS=$?
+        sed -i "s/$FILENAME/download\/$FILENAME/g" download/$FILENAME.md5
     else
-        wget  download/$FILENAME.md5 $DIR_URL/$FILENAME.md5
-        echo "  download/$FILENAME" >> download/$FILENAME.md5
+        wget -O download/$FILENAME.md5 $DIR_URL/$FILENAME.md5 || STATUS=$?
+        echo "  download/$FILENAME" >> download/$FILENAME.md5 
     fi 
+
+    if [ "$STATUS" != "0" ] 
+    then
+        rm download/$FILENAME.md5 
+    fi
 }
 
 function download_and_unzip {
-echo $1
     URL=$1
     FILENAME=${URL##*/}
 
