@@ -22,6 +22,10 @@ function set_version {
 
 function prepare_eap_source {
     download_and_unzip http://ftp.redhat.com/redhat/jbeap/$EAP_VERSION/en/source/$SRC_FILE
+    cd work
+    jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh
+    MVN=$PWD/maven/bin/mvn
+    cd ..
 }
 
 function prepare_core_source {
@@ -80,14 +84,14 @@ function maven_build {
     if [ "$MVN_OUTPUT" = "2" ]
     then
         echo "=== Main Maven build ===" | tee -a ../build.log
-        mvn clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a ../build.log
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a ../build.log
     elif [ "$MVN_OUTPUT" = "1" ]
     then
         echo "=== Main Maven build ===" | tee -a ../build.log
-        mvn clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a ../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a ../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
     else
         echo "=== Main Maven build ===" >> ../build.log
-        mvn clean install -s ../../../src/settings.xml -DskipTests -Drelease=true >> ../build.log 2>&1
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true >> ../build.log 2>&1
     fi
 
     if [ -n "$1" ]
