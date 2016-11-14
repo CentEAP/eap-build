@@ -8,9 +8,9 @@ function set_version {
         EAP_VERSION=$1
     fi
 
-    if [ ! -f src/jboss-eap-$EAP_VERSION.patch ]
+    if [ ! -f src/eap6-patches/jboss-eap-$EAP_VERSION.patch ]
     then
-        echo "Version $EAP_VERSION is not supported, versions supported are :" `find src -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9]*(-[a-z]*)?'`
+        echo "Version $EAP_VERSION is not supported, versions supported are :" `find src/eap6-patches -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9]*(-[a-z]*)?'`
         exit 1
     fi
 
@@ -28,7 +28,7 @@ function set_version {
 function patch_files {
     echo "Patching files"
     echo "=== Patch ===" >> work/build.log
-    patch -p0 < src/jboss-eap-$EAP_VERSION.patch >> work/build.log || { echo >&2 "Error applying patch.  Aborting."; exit 1; }
+    patch -p0 < src/eap6-patches/jboss-eap-$EAP_VERSION.patch >> work/build.log || { echo >&2 "Error applying patch.  Aborting."; exit 1; }
     # Downloading Maven before the build, so that I can override the settings.xml file
     if [ -f work/jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh ]
     then
