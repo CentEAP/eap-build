@@ -8,6 +8,8 @@ function set_version {
         EAP_VERSION=$1
     fi
 
+    MVN_OUTPUT=2
+
     if [ ! -f src/jboss-eap-$EAP_VERSION.patch ]
     then
         echo "Version $EAP_VERSION is not supported, versions supported are :" `find src -name '*.patch'|grep -Eo '[0-9]+\.[0-9]+\.[0-9]*(-[a-z]*)?'`
