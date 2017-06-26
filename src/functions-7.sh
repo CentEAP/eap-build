@@ -16,6 +16,7 @@ function set_version {
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
+    BUILD_HOME=$(pwd)
 
     echo "Here we go. Building EAP version $EAP_VERSION."
 }
@@ -52,6 +53,9 @@ function prepare_core_source {
     xmlstarlet ed -d "//dependency[artifactId='wildfly-core-model-test-framework']" pom.xml > tmp.xml
     rm pom.xml
     mv tmp.xml pom.xml
+
+    #create_module org.apache.commons.logging . 
+    create_modules .
 
     cd ../../..
 }
@@ -120,5 +124,19 @@ function get_supported_versions {
 }
 function get_default_version {
     echo $(get_supported_versions) | sed s/,/\\n/g | sort | tac | sed -n '1p'
+}
+function create_modules {
+    module_names=$(grep "$EAP_VERSION.modules" $BUILD_HOME/src/jboss-eap-7.properties | sed -e "s/$EAP_VERSION.modules=//g")
+    IFS=',' read -ra module_names_array <<< $module_names
+    for module_name in "${module_names_array[@]}"; do
+        create_module $module_name $1
+    done
+}
+function create_module {
+    # Create an empty jboss module
+    module_name=$1
+    module_dir=$2/src/main/resources/modules/system/layers/base/$(echo $module_name | sed 's:\.:/:g')/main
+    mkdir -p $module_dir
+    echo -e "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module xmlns=\"urn:jboss:module:1.3\" name=\"$module_name\">\n</module>" > $module_dir/module.xml
 }
 
