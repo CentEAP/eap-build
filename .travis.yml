@@ -12,7 +12,6 @@ addons:
     packages:
       - oracle-java8-installer
 before_script: 
-  - sudo rm /etc/mavenrc
   - export MVN_OUTPUT=2
 script:
   - ./build-eap.sh $EAP_VERSION
