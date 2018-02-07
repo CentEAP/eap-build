@@ -2,9 +2,9 @@ language: java
 matrix:
   include:
     - jdk: oraclejdk7
-      env: EAP_VERSION=6.4.16
+      env: EAP_VERSION=6.4.19
     - jdk: oraclejdk8
-      env: EAP_VERSION=6.4.16
+      env: EAP_VERSION=6.4.19
     - jdk: oraclejdk8
       env: EAP_VERSION=
 addons:
