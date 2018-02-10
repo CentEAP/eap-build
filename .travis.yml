@@ -1,7 +1,7 @@
 language: java
 matrix:
   include:
-    - jdk: oraclejdk7
+    - jdk: openjdk7
       env: EAP_VERSION=6
     - jdk: oraclejdk8
       env: EAP_VERSION=6
@@ -13,7 +13,6 @@ addons:
       - xmlstarlet
       - oracle-java8-installer
 before_script: 
-  - sudo rm /etc/mavenrc
   - export MVN_OUTPUT=2
 script:
   - ./build-eap$EAP_VERSION.sh
