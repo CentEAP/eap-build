@@ -23,9 +23,17 @@ function set_version {
 
 function prepare_eap_source {
     download_and_unzip http://ftp.redhat.com/redhat/jbeap/$EAP_VERSION/en/source/$SRC_FILE
-    cd work
-    jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh
-    MVN=$PWD/maven/bin/mvn
+    cd work/jboss-eap-$EAP_SHORT_VERSION-src
+    xml_clean eap
+    cd ..
+    if [ -f jboss-eap-$EAP_SHORT_VERSION-src/mvnw ] 
+    then
+        MVN=$PWD/jboss-eap-$EAP_SHORT_VERSION-src/mvnw
+        export MAVEN_BASEDIR=$PWD/jboss-eap-$EAP_SHORT_VERSION-src
+    else
+        jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh
+        MVN=$PWD/maven/bin/mvn
+    fi
     cd ..
 }
 
@@ -38,8 +46,12 @@ function prepare_core_source {
     then
         echo "No WildFly Core source found for version $CORE_VERSION"
         exit 1
+    elif [[ $CORE_FULL_SOURCE_VERSION = *"-redhat-"* ]]
+    then
+        download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
+    else
+        download_and_unzip http://repo1.maven.org/maven2/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-source-release.zip
     fi
-    download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
 
     cd work
     mkdir wildfly-core-$CORE_VERSION
@@ -49,12 +61,8 @@ function prepare_core_source {
     cd wildfly-core-$CORE_VERSION/core-feature-pack
 
     wget $MAVEN_REPO/org/wildfly/core/wildfly-core-feature-pack/$CORE_VERSION/wildfly-core-feature-pack-$CORE_VERSION.pom -O pom.xml
-    sed -i 's/ xmlns="http:\/\/maven.apache.org\/POM\/4.0.0"//g' pom.xml 
-    xmlstarlet ed -d "//dependency[artifactId='wildfly-core-model-test-framework']" pom.xml > tmp.xml
-    rm pom.xml
-    mv tmp.xml pom.xml
+    xml_clean core
 
-    #create_module org.apache.commons.logging . 
     create_modules .
 
     cd ../../..
@@ -140,3 +148,22 @@ function create_module {
     echo -e "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module xmlns=\"urn:jboss:module:1.3\" name=\"$module_name\">\n</module>" > $module_dir/module.xml
 }
 
+function xml_clean {
+    scope=$1
+
+    xml_to_delete=$(grep "$EAP_VERSION.xpath.delete.$scope" $BUILD_HOME/src/jboss-eap-7.properties | sed -e "s/$EAP_VERSION.xpath.delete.$scope=//g")
+    #echo xml_to_delete : $xml_to_delete
+    IFS=' ' read -ra xml_to_delete_array <<< $xml_to_delete
+    for line in "${xml_to_delete_array[@]}"; do
+        xml_delete $(echo $line| sed -e "s/,/ /g")
+    done
+}
+function xml_delete {
+    echo xml_delete $*
+    file=$1
+    xpath=$2
+
+    cp $file .tmp.xml
+    xmlstarlet ed --delete $xpath .tmp.xml > $file
+    rm .tmp.xml
+}
