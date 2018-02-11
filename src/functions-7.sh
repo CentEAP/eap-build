@@ -167,7 +167,7 @@ function xml_delete {
     xpath=$2
 
     cp $file .tmp.xml
-    #xmlstarlet ed --delete $xpath .tmp.xml > $file
+    xmlstarlet ed --delete $xpath .tmp.xml > $file
     rm .tmp.xml
 }
 function error {
