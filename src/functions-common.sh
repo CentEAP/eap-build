@@ -56,10 +56,10 @@ function download_md5 {
 
     if [[ "$URL" == *"ftp.redhat.com"* ]]
     then
-        wget -O download/$FILENAME.md5 $DIR_URL/MD5SUM || STATUS=$?
+        wget --output-file=$BUILD_HOME/work/build.log -O download/$FILENAME.md5 $DIR_URL/MD5SUM || STATUS=$?
         sed -i "s/$FILENAME/download\/$FILENAME/g" download/$FILENAME.md5
     else
-        wget -O download/$FILENAME.md5 $DIR_URL/$FILENAME.md5 || STATUS=$?
+        wget --output-file=$BUILD_HOME/work/build.log -O download/$FILENAME.md5 $DIR_URL/$FILENAME.md5 || STATUS=$?
         echo "  download/$FILENAME" >> download/$FILENAME.md5 
     fi 
 
@@ -76,7 +76,7 @@ function download_and_unzip {
     if [ ! -f download/$FILENAME ]
     then
         echo "Trying to download $FILENAME."
-        wget --timeout=30 --tries=2 --directory-prefix=download $URL
+        wget --output-file=$BUILD_HOME/work/build.log --timeout=30 --tries=2 --directory-prefix=download $URL
     else
         echo "File $FILENAME already here. No need to download it again."
     fi

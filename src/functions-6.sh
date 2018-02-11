@@ -21,6 +21,7 @@ function set_version {
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
+    BUILD_HOME=$(pwd)
 
     echo "Here we go. Building EAP version $EAP_VERSION."
 }

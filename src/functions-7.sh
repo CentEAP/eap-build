@@ -17,15 +17,16 @@ function set_version {
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
     BUILD_HOME=$(pwd)
+    #echo BUILD_HOME=$BUILD_HOME
 
     echo "Here we go. Building EAP version $EAP_VERSION."
 }
 
 function prepare_eap_source {
     download_and_unzip http://ftp.redhat.com/redhat/jbeap/$EAP_VERSION/en/source/$SRC_FILE
-    cd work/jboss-eap-$EAP_SHORT_VERSION-src
+    cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     xml_clean eap
-    cd ..
+    cd $BUILD_HOME/work
     if [ -f jboss-eap-$EAP_SHORT_VERSION-src/mvnw ] 
     then
         MVN=$PWD/jboss-eap-$EAP_SHORT_VERSION-src/mvnw
@@ -34,7 +35,7 @@ function prepare_eap_source {
         jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh
         MVN=$PWD/maven/bin/mvn
     fi
-    cd ..
+    cd $BUILD_HOME
 }
 
 function prepare_core_source {
@@ -53,67 +54,69 @@ function prepare_core_source {
         download_and_unzip http://repo1.maven.org/maven2/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-source-release.zip
     fi
 
-    cd work
+    cd $BUILD_HOME/work
     mkdir wildfly-core-$CORE_VERSION
     cp -r wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/core-feature-pack wildfly-core-$CORE_VERSION/
     cp wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/checkstyle-suppressions.xml wildfly-core-$CORE_VERSION/core-feature-pack/
 
-    cd wildfly-core-$CORE_VERSION/core-feature-pack
+    cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
 
-    wget $MAVEN_REPO/org/wildfly/core/wildfly-core-feature-pack/$CORE_VERSION/wildfly-core-feature-pack-$CORE_VERSION.pom -O pom.xml
+    wget --output-file=$BUILD_HOME/work/build.log $MAVEN_REPO/org/wildfly/core/wildfly-core-feature-pack/$CORE_VERSION/wildfly-core-feature-pack-$CORE_VERSION.pom -O pom.xml
     xml_clean core
 
     create_modules .
 
-    cd ../../..
+    cd $BUILD_HOME
 }
 
 function build_core {
-    cd work/wildfly-core-$CORE_VERSION
+    cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION
     maven_build core-feature-pack
-    cd ../..
+    cd $BUILD_HOME
     echo "Build done for Core $CORE_VERSION"
 }
 
 function build_eap {
-    cd work/jboss-eap-$EAP_SHORT_VERSION-src
+    cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     maven_build servlet-feature-pack
     maven_build feature-pack
     maven_build dist
-    cd ../..
+    cd $BUILD_HOME
     echo "Build done for EAP $EAP_VERSION"
 }
 
 function maven_build {
     if [ -n "$1" ]
     then
-        echo "Launching Maven build for $1"
+        msg="Maven build for $1"
         cd $1
     else
-        echo "Launching Maven build from root"
+        msg="Maven build from root"
     fi
+    echo "Launching $msg"
 
     if [ "$MVN_OUTPUT" = "2" ]
     then
-        echo "=== Main Maven build ===" | tee -a ../build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a ../build.log
+        echo "=== Main Maven build ===" | tee -a $BUILD_HOME/work/build.log
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
     elif [ "$MVN_OUTPUT" = "1" ]
     then
-        echo "=== Main Maven build ===" | tee -a ../build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a ../build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"
+        echo "=== Main Maven build ===" | tee -a $BUILD_HOME/work/build.log
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a $BUILD_HOME/work/build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"  || error "Error in $msg"
     else
-        echo "=== Main Maven build ===" >> ../build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true >> ../build.log 2>&1
+        echo "=== Main Maven build ===" >> $BUILD_HOME/work/build.log
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
     fi
 
     if [ -n "$1" ]
     then
         cd ..
     fi
+    echo "...done with $msg"
 }
 
 function get_module_version {
-    grep "<version.$1>" work/jboss-eap-$EAP_SHORT_VERSION-src/pom.xml | sed -e "s/<version.$1>\(.*\)<\/version.$1>/\1/" | sed 's/ //g'
+    grep "<version.$1>" $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src/pom.xml | sed -e "s/<version.$1>\(.*\)<\/version.$1>/\1/" | sed 's/ //g'
 }
 
 function is_supported_version {
@@ -159,11 +162,17 @@ function xml_clean {
     done
 }
 function xml_delete {
-    echo xml_delete $*
+    #echo xml_delete $*
     file=$1
     xpath=$2
 
     cp $file .tmp.xml
-    xmlstarlet ed --delete $xpath .tmp.xml > $file
+    #xmlstarlet ed --delete $xpath .tmp.xml > $file
     rm .tmp.xml
+}
+function error {
+    echo >&2 $1
+    echo >&2 ""
+    echo >&2 "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
+    exit 1
 }
