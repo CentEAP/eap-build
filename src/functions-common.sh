@@ -58,6 +58,7 @@ function download_md5 {
     then
         wget --output-file=$BUILD_HOME/work/build.log -O download/$FILENAME.md5 $DIR_URL/MD5SUM || STATUS=$?
         sed -i "s/$FILENAME/download\/$FILENAME/g" download/$FILENAME.md5
+        sed -i "/$FILENAME/!d" download/$FILENAME.md5
     else
         wget --output-file=$BUILD_HOME/work/build.log -O download/$FILENAME.md5 $DIR_URL/$FILENAME.md5 || STATUS=$?
         echo "  download/$FILENAME" >> download/$FILENAME.md5 
