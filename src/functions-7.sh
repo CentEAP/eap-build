@@ -154,7 +154,7 @@ function create_module {
 function xml_clean {
     scope=$1
 
-    xml_to_delete=$(grep "$EAP_VERSION.xpath.delete.$scope" $BUILD_HOME/src/jboss-eap-7.properties | sed -e "s/$EAP_VERSION.xpath.delete.$scope=//g")
+    xml_to_delete=$(grep "$EAP_VERSION.xpath.delete.$scope" $BUILD_HOME/src/jboss-eap-7.properties | sed -e "s/$EAP_VERSION.xpath.delete.$scope=//g" | tr '\n' ' ')
     #echo xml_to_delete : $xml_to_delete
     IFS=' ' read -ra xml_to_delete_array <<< $xml_to_delete
     for line in "${xml_to_delete_array[@]}"; do
