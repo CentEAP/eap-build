@@ -43,7 +43,7 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.3.
+The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4.
 
 The build-eap6.sh script supports 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.20.
 
