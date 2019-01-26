@@ -3,9 +3,9 @@ matrix:
   include:
     - jdk: openjdk7
       env: EAP_VERSION=6
-    - jdk: oraclejdk8
+    - jdk: openjdk8
       env: EAP_VERSION=6
-    - jdk: oraclejdk8
+    - jdk: openjdk8
       env: EAP_VERSION=7
 addons:
   apt:
