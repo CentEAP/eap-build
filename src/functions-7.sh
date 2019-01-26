@@ -93,26 +93,32 @@ function maven_build {
     else
         msg="Maven build from root"
     fi
-    echo "Launching $msg"
 
-    if [ "$MVN_OUTPUT" = "2" ]
+    if [ "$MVN_OUTPUT" = "3" ]
     then
-        echo "=== Main Maven build ===" | tee -a $BUILD_HOME/work/build.log
+        echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
         $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
+	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+    elif [ "$MVN_OUTPUT" = "2" ]
+    then
+        echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
+	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "1" ]
     then
-        echo "=== Main Maven build ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a $BUILD_HOME/work/build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS"  || error "Error in $msg"
+        echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
+	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     else
-        echo "=== Main Maven build ===" >> $BUILD_HOME/work/build.log
+        echo "=== $msg ===" >> $BUILD_HOME/work/build.log
         $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
+	    echo "...done with $msg" >> $BUILD_HOME/work/build.log
     fi
 
     if [ -n "$1" ]
     then
         cd ..
     fi
-    echo "...done with $msg"
 }
 
 function get_module_version {
