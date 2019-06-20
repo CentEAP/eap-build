@@ -1,8 +1,8 @@
 language: java
 matrix:
   include:
-    - jdk: openjdk7
-      env: EAP_VERSION=6
+#    - jdk: openjdk7
+#      env: EAP_VERSION=6
     - jdk: openjdk8
       env: EAP_VERSION=6
     - jdk: openjdk8
@@ -13,7 +13,6 @@ addons:
   apt:
     packages:
       - xmlstarlet
-      - oracle-java8-installer
 before_script: 
   - export MVN_OUTPUT=2
 script:
