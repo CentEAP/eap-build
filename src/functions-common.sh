@@ -28,8 +28,8 @@ function check_md5 {
     elif command -v md5 >/dev/null
     then
         check_commands cut
-        if [ "$(md5 -q download/$FILENAME)" != "$(cat download/$FILENAME.md5 | cut -d ' ' -f 1)" ]
-        then
+        if [ "$(md5 -q download/$FILENAME)" != "$(cat download/$FILENAME.md5 | cut -d ' ' -f 1)" ]
+	then
             STATUS=1
         fi
     else
@@ -57,8 +57,9 @@ function download_md5 {
     if [[ "$URL" == *"ftp.redhat.com"* ]]
     then
         wget --output-file=$BUILD_HOME/work/build.log -O download/$FILENAME.md5 $DIR_URL/MD5SUM || STATUS=$?
-        sed -i "s/$FILENAME/download\/$FILENAME/g" download/$FILENAME.md5
-        sed -i "/$FILENAME/!d" download/$FILENAME.md5
+        sed -i.tmp  "s/$FILENAME/download\/$FILENAME/g" download/$FILENAME.md5
+        sed -i.tmp "/$FILENAME/!d" download/$FILENAME.md5
+
     else
         wget --output-file=$BUILD_HOME/work/build.log -O download/$FILENAME.md5 $DIR_URL/$FILENAME.md5 || STATUS=$?
         echo "  download/$FILENAME" >> download/$FILENAME.md5 
@@ -73,7 +74,7 @@ function download_md5 {
 function download_and_unzip {
     URL=$1
     FILENAME=${URL##*/}
-
+    
     if [ ! -f download/$FILENAME ]
     then
         echo "Trying to download $FILENAME."

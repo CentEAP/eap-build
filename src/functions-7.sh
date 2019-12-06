@@ -128,7 +128,7 @@ function get_module_version {
 function is_supported_version {
     set +e
     supported_versions=$(get_supported_versions)
-    supported_version=$(echo "$supported_versions," | grep -P "$1,")
+    supported_version=$(echo "$supported_versions," | grep -G "$1,")
     if [ -z $supported_version ]
     then
         echo "Version $1 is not supported. Supported versions are $supported_versions"
