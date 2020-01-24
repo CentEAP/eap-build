@@ -51,7 +51,7 @@ function prepare_core_source {
     then
         download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
     else
-        download_and_unzip http://repo1.maven.org/maven2/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-source-release.zip
+        download_and_unzip https://repo1.maven.org/maven2/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-source-release.zip
     fi
 
     cd $BUILD_HOME/work
