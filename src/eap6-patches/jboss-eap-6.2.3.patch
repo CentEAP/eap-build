@@ -18,3 +18,12 @@
      <version.org.jboss.arquillian.core>1.0.0.Final</version.org.jboss.arquillian.core>
      <version.sun.jaxb>2.2.5.redhat-7</version.sun.jaxb>
      <version.org.jboss.osgi.framework>2.1.0.Final-redhat-1</version.org.jboss.osgi.framework>
+@@ -163,7 +163,7 @@
+     <version.joda-time>1.6.2-redhat-4</version.joda-time>
+     <version.org.jboss.shrinkwrap.resolver>2.0.0</version.org.jboss.shrinkwrap.resolver>
+     <version.org.kohsuke.rngom>201103-redhat-2</version.org.kohsuke.rngom>
+-    <version.shade.plugin>1.5</version.shade.plugin>
++    <version.shade.plugin>2.4.3</version.shade.plugin>
+     <version.org.apache.ws.xmlschema>2.0.2.redhat-3</version.org.apache.ws.xmlschema>
+     <version.org.jboss.iiop-client>1.0.0.Final-redhat-2</version.org.jboss.iiop-client>
+     <version.org.jboss.ws.jbossws-native>4.1.2.Final-redhat-1</version.org.jboss.ws.jbossws-native>
