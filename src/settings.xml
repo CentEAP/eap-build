@@ -9,9 +9,7 @@
     <profile>
       <id>public-repositories</id>
       <activation>
-        <property>
-          <name>public-repositories</name>
-        </property>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <repositories>
         <repository>
