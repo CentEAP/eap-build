@@ -41,29 +41,32 @@ function prepare_eap_source {
 function prepare_core_source {
     CORE_VERSION=$(get_module_version org.wildfly.core)
     CORE_FULL_SOURCE_VERSION=$(grep "$CORE_VERSION=" src/jboss-eap-7.properties | cut -d '=' -f 2)
-    MAVEN_REPO=https://maven.repository.redhat.com/earlyaccess
 
     if [ -z "$CORE_FULL_SOURCE_VERSION" ]
     then
-        echo "No WildFly Core source found for version $CORE_VERSION"
-        exit 1
-    elif [[ $CORE_FULL_SOURCE_VERSION = *"-redhat-"* ]]
-    then
-        download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
+        download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
+        mv $BUILD_HOME/work/jboss-eap-7.3-core-src $BUILD_HOME/work/wildfly-core-$CORE_VERSION
+
+        cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
     else
-        download_and_unzip https://repo1.maven.org/maven2/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-source-release.zip
+        MAVEN_REPO=https://maven.repository.redhat.com/earlyaccess
+        if [[ $CORE_FULL_SOURCE_VERSION = *"-redhat-"* ]]
+        then
+            download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
+        else
+            download_and_unzip https://repo1.maven.org/maven2/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-source-release.zip
+        fi
+
+        cd $BUILD_HOME/work
+        mkdir wildfly-core-$CORE_VERSION
+        cp -r wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/core-feature-pack wildfly-core-$CORE_VERSION/
+        cp wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/checkstyle-suppressions.xml wildfly-core-$CORE_VERSION/core-feature-pack/
+
+        cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
+        wget --output-file=$BUILD_HOME/work/build.log $MAVEN_REPO/org/wildfly/core/wildfly-core-feature-pack/$CORE_VERSION/wildfly-core-feature-pack-$CORE_VERSION.pom -O pom.xml
     fi
 
-    cd $BUILD_HOME/work
-    mkdir wildfly-core-$CORE_VERSION
-    cp -r wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/core-feature-pack wildfly-core-$CORE_VERSION/
-    cp wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/checkstyle-suppressions.xml wildfly-core-$CORE_VERSION/core-feature-pack/
-
-    cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
-
-    wget --output-file=$BUILD_HOME/work/build.log $MAVEN_REPO/org/wildfly/core/wildfly-core-feature-pack/$CORE_VERSION/wildfly-core-feature-pack-$CORE_VERSION.pom -O pom.xml
     xml_clean core
-
     create_modules .
 
     cd $BUILD_HOME
