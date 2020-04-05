@@ -9,9 +9,7 @@
     <profile>
       <id>public-repositories</id>
       <activation>
-        <property>
-          <name>public-repositories</name>
-        </property>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <repositories>
         <repository>
@@ -41,6 +39,34 @@
           </snapshots>
         </repository>
       </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>central</id>
+          <name>Use unique IDs for downloading artifacts vs. plugins from central</name>
+          <url>https://repo1.maven.org/maven2</url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>jboss-public-repo</id>
+          <name>JBoss Public Repository Group</name>
+          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
     </profile>
 
     <!-- Configure the JBoss EAP Maven repository -->
@@ -62,6 +88,34 @@
         <pluginRepository>
           <id>jboss-eap-maven-plugin-repository</id>
           <url>https://maven.repository.redhat.com/ga/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+
+    <profile>
+      <id>jboss-eap-maven-repository-ea</id>
+      <repositories>
+        <repository>
+          <id>jboss-eap</id>
+          <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>jboss-eap-maven-plugin-repository</id>
+          <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
           <releases>
             <enabled>true</enabled>
           </releases>
