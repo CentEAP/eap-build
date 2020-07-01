@@ -45,7 +45,7 @@ Versions
 --------
 The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.7, 7.3.0->7.3.1.
 
-The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.22.
+The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.23.
 
 Prerequisite and systems supported
 ==================================
