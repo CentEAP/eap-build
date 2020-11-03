@@ -77,7 +77,7 @@ function download_and_unzip {
     
     if [ ! -f download/$FILENAME ]
     then
-        echo "Trying to download $FILENAME."
+        echo "Trying to download $FILENAME from $URL."
         wget --output-file=$BUILD_HOME/work/build.log --timeout=30 --tries=2 --directory-prefix=download $URL
     else
         echo "File $FILENAME already here. No need to download it again."
@@ -99,6 +99,7 @@ function download_and_unzip {
             echo "$FILENAME decompressed"
         fi
     else
+        echo "Download failed."
         exit 1
     fi
 }

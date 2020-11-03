@@ -40,6 +40,7 @@ function prepare_eap_source {
 
 function prepare_core_source {
     CORE_VERSION=$(get_module_version org.wildfly.core)
+    echo "Core version: $CORE_VERSION"
     CORE_FULL_SOURCE_VERSION=$(grep "$CORE_VERSION=" src/jboss-eap-7.properties | cut -d '=' -f 2)
 
     if [ -z "$CORE_FULL_SOURCE_VERSION" ]
