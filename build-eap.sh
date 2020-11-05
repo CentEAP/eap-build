@@ -7,7 +7,7 @@ set_version $1
 make_directory -f work
 make_directory download
 make_directory dist
-download_and_unzip http://ftp.redhat.com/redhat/jbeap/$EAP_VERSION/en/source/$SRC_FILE
+download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/$SRC_FILE
 patch_files
 build_core
 maven_build
