@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hasalex/eap-build.svg)](https://travis-ci.org/hasalex/eap-build)
+[![Build Status](https://travis-ci.com/hasalex/eap-build.svg?branch=master)](https://travis-ci.com/hasalex/eap-build)
 
 Building JBoss EAP, or something similar...
 
