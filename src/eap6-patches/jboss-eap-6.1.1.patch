@@ -1,0 +1,77 @@
+--- work/jboss-eap-6.1-src/pom.xml	2013-08-20 21:49:06.000000000 +0200
++++ work-done/jboss-eap-6.1-src/pom.xml	2013-09-07 11:29:15.000000000 +0200
+@@ -120,7 +120,7 @@
+         <version.org.apache.maven>3.0.3</version.org.apache.maven>
+         <version.org.apache.maven.wagon>1.0-beta-7</version.org.apache.maven.wagon>
+         <version.org.apache.maven.wagon.http-lightweight>1.0-beta-7</version.org.apache.maven.wagon.http-lightweight>
+-        <version.org.apache.myfaces.core>2.1.8-redhat-1</version.org.apache.myfaces.core>
++        <version.org.apache.myfaces.core>2.1.8</version.org.apache.myfaces.core>
+         <version.org.apache.neethi>3.0.2-redhat-2</version.org.apache.neethi>
+         <version.org.apache.santuario>1.5.5-redhat-1</version.org.apache.santuario>
+         <version.org.apache.velocity>1.7-redhat-2</version.org.apache.velocity>
+@@ -139,17 +139,17 @@
+         <version.org.hibernate.commons.annotations>4.0.1.Final-redhat-2</version.org.hibernate.commons.annotations>
+         <version.org.hibernate.javax.persistence.hibernate-jpa-2.0-api>1.0.1.Final-redhat-2</version.org.hibernate.javax.persistence.hibernate-jpa-2.0-api>
+         <version.org.hibernate.validator>4.3.1.Final-redhat-1</version.org.hibernate.validator>
+-        <version.org.hibernate3>3.6.5.Final-redhat-2</version.org.hibernate3>
+-        <version.org.hibernate3.commons.annotations>3.2.0.Final-redhat-2</version.org.hibernate3.commons.annotations>
++        <version.org.hibernate3>3.6.5.Final</version.org.hibernate3>
++        <version.org.hibernate3.commons.annotations>3.2.0.Final</version.org.hibernate3.commons.annotations>
+         <version.org.hornetq>2.3.5.Final-redhat-2</version.org.hornetq>
+-        <version.org.infinispan>5.2.7.Final-redhat-1</version.org.infinispan>
++        <version.org.infinispan>5.2.7.Final</version.org.infinispan>
+         <version.org.jacorb>2.3.2-redhat-4</version.org.jacorb>
+         <version.org.javassist>3.15.0-GA-redhat-2</version.org.javassist>
+         <version.org.jdom>1.1.2-redhat-2</version.org.jdom>
+         <version.org.jboss.aesh>0.33.7.redhat-2</version.org.jboss.aesh>
+         <version.org.jboss.arquillian.core>1.0.0.Final</version.org.jboss.arquillian.core>
+         <version.org.jboss.arquillian.osgi>1.0.3.Final</version.org.jboss.arquillian.osgi>
+-        <version.org.jboss.byteman>2.0.1-redhat-2</version.org.jboss.byteman>
++        <version.org.jboss.byteman>2.0.1</version.org.jboss.byteman>
+         <version.org.jboss.classfilewriter>1.0.3.Final-redhat-1</version.org.jboss.classfilewriter>
+         <version.org.jboss.common.jboss-common-beans>1.1.0.Final-redhat-1</version.org.jboss.common.jboss-common-beans>
+         <version.org.jboss.jboss-common-core>2.2.17.GA-redhat-2</version.org.jboss.jboss-common-core>
+@@ -160,7 +160,7 @@
+         <version.org.jboss.iiop-client>1.0.0.Final-redhat-2</version.org.jboss.iiop-client>
+         <version.org.jboss.invocation>1.1.2.Final-redhat-1</version.org.jboss.invocation>
+         <version.org.jboss.ironjacamar>1.0.19.Final-redhat-2</version.org.jboss.ironjacamar>
+-        <version.org.jboss.jandex>1.0.3.Final-redhat-2</version.org.jboss.jandex>
++        <version.org.jboss.jandex>1.0.3.Final</version.org.jboss.jandex>
+         <version.org.jboss.jboss-dmr>1.1.6.Final-redhat-1</version.org.jboss.jboss-dmr>
+         <version.org.jboss.jboss-transaction-spi>7.0.0.Final-redhat-2</version.org.jboss.jboss-transaction-spi>
+         <version.org.jboss.jbossts.jbossjts>4.17.7.Final-redhat-4</version.org.jboss.jbossts.jbossjts>
+@@ -238,7 +238,7 @@
+         <version.org.jboss.xnio>3.0.7.GA-redhat-1</version.org.jboss.xnio>
+         <version.org.jboss.xnio.xnio-api>${version.org.jboss.xnio}</version.org.jboss.xnio.xnio-api>
+         <version.org.jboss.xnio.xnio-nio>${version.org.jboss.xnio}</version.org.jboss.xnio.xnio-nio>
+-        <version.org.jgroups>3.2.10.Final-redhat-2</version.org.jgroups>
++        <version.org.jgroups>3.2.10.Final</version.org.jgroups>
+         <version.org.kohsuke.rngom>201103-redhat-2</version.org.kohsuke.rngom>
+         <version.org.mockito>1.9.5</version.org.mockito>
+         <version.org.opensaml.opensaml>2.5.1.redhat-2</version.org.opensaml.opensaml>
+@@ -250,7 +250,7 @@
+         <version.org.powermock>1.5</version.org.powermock>
+         <version.org.projectodd.stilts>0.1.26-redhat-2</version.org.projectodd.stilts>
+         <version.org.scannotation>1.0.2-redhat-2</version.org.scannotation>
+-        <version.org.slf4j>1.7.2-redhat-1</version.org.slf4j>
++        <version.org.slf4j>1.7.2</version.org.slf4j>
+         <version.org.sonatype.aether>1.13.1</version.org.sonatype.aether>
+         <version.org.sonatype.sisu>3.0.3</version.org.sonatype.sisu>
+         <version.org.testng>6.1.1-redhat-2</version.org.testng>
+@@ -266,5 +266,5 @@
+         <!-- Non-default maven plugin versions and configuration -->
+         <version.org.zanata.plugin>1.5.0</version.org.zanata.plugin>
+-        <version.shade.plugin>1.5</version.shade.plugin>
++        <version.shade.plugin>2.4.3</version.shade.plugin>
+         <version.jacoco.plugin>0.5.6.201201232323</version.jacoco.plugin> <!-- Needs to be set explicitely to match with org.jacoco:org.jacoco.ant - see testsuite. -->
+         <version.xml.plugin>1.0</version.xml.plugin>
+@@ -3656,7 +3656,7 @@
+                 <groupId>org.jboss.byteman</groupId>
+                 <artifactId>byteman-install</artifactId>
+                 <scope>test</scope>
+-                <version>${version.org.jboss.byteman}</version>
++                <version>2.0.1</version>
+             </dependency>
+ 
+             <dependency>
+
