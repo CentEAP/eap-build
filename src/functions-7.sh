@@ -83,25 +83,19 @@ function build_core {
 function build_eap {
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     maven_build servlet-feature-pack
-    if [ -d feature-pack ]
-    then
-        maven_build feature-pack
-    fi
-    # EAP 7.4
-    if [ -d ee-feature-pack ]
+    if [ $EAP_SHORT_VERSION = "7.4" ]
     then
         maven_build ee-feature-pack
+    else
+      maven_build feature-pack
     fi
 
-    # EAP 7.3
     if [ -d dist-legacy ]
     then
-        if [ -d ee-dist ]
+        if [ $EAP_SHORT_VERSION = "7.4" ]
         then
-            # EAP 7.4
             mv ee-dist dist-new
         else
-            # EAP 7.3
             mv dist dist-new
         fi
         mv dist-legacy dist
@@ -120,29 +114,53 @@ function maven_build {
     else
         msg="Maven build from root"
     fi
-
-    mvn_command="$MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true"
-    if [ "$MVN_OUTPUT" = "3" ]
+    
+    if [ $EAP_SHORT_VERSION = "7.4" ]
     then
-        echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
-	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
-    elif [ "$MVN_OUTPUT" = "2" ]
-    then
-        echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
-	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
-    elif [ "$MVN_OUTPUT" = "1" ]
-    then
-        echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
-	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        mvn_command="$MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true"
+        if [ "$MVN_OUTPUT" = "3" ]
+        then
+            echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+            $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
+            echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        elif [ "$MVN_OUTPUT" = "2" ]
+        then
+            echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+            $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
+            echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        elif [ "$MVN_OUTPUT" = "1" ]
+        then
+            echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+            $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
+            echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        else
+            echo "=== $msg ===" >> $BUILD_HOME/work/build.log
+            $mvn_command >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
+            echo "...done with $msg" >> $BUILD_HOME/work/build.log
+        fi
     else
-        echo "=== $msg ===" >> $BUILD_HOME/work/build.log
-        $mvn_command >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
-	    echo "...done with $msg" >> $BUILD_HOME/work/build.log
+        mvn_command="$MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip"
+        if [ "$MVN_OUTPUT" = "3" ]
+        then
+            echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+            $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
+            echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        elif [ "$MVN_OUTPUT" = "2" ]
+        then
+            echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+            $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
+            echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        elif [ "$MVN_OUTPUT" = "1" ]
+        then
+            echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
+            $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
+            echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        else
+            echo "=== $msg ===" >> $BUILD_HOME/work/build.log
+            $mvn_command >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
+            echo "...done with $msg" >> $BUILD_HOME/work/build.log
+        fi
     fi
-
     if [ -n "$1" ]
     then
         cd ..
