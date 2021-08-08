@@ -46,7 +46,7 @@ function prepare_core_source {
     if [ -z "$CORE_FULL_SOURCE_VERSION" ]
     then
         download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
-        mv $BUILD_HOME/work/jboss-eap-7.3-core-src $BUILD_HOME/work/wildfly-core-$CORE_VERSION
+        mv $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src $BUILD_HOME/work/wildfly-core-$CORE_VERSION
 
         cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
     else
@@ -83,13 +83,30 @@ function build_core {
 function build_eap {
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     maven_build servlet-feature-pack
-    maven_build feature-pack
+    if [ -d feature-pack ]
+    then
+        maven_build feature-pack
+    fi
+    # EAP 7.4
+    if [ -d ee-feature-pack ]
+    then
+        maven_build ee-feature-pack
+    fi
+
     # EAP 7.3
     if [ -d dist-legacy ]
     then
-        mv dist dist-new
+        if [ -d ee-dist ]
+        then
+            # EAP 7.4
+            mv ee-dist dist-new
+        else
+            # EAP 7.3
+            mv dist dist-new
+        fi
         mv dist-legacy dist
     fi
+
     maven_build dist
     cd $BUILD_HOME
     echo "Build done for EAP $EAP_VERSION"
@@ -104,21 +121,21 @@ function maven_build {
         msg="Maven build from root"
     fi
 
-    mvn_command="$MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip"
+    mvn_command="$MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true"
     if [ "$MVN_OUTPUT" = "3" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
 	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "2" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
 	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "1" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
+        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip -Dmaven.test.skip=true | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
 	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     else
         echo "=== $msg ===" >> $BUILD_HOME/work/build.log
