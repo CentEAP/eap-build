@@ -115,6 +115,7 @@ function build_eap {
 }
 
 function maven_build {
+    settings=$(pwd)/../../src/settings.xml
     if [ -n "$1" ]
     then
         msg="Maven build for $1"
@@ -123,21 +124,21 @@ function maven_build {
         msg="Maven build from root"
     fi
 
-    mvn_command="$MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip"
+    mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -DlegacyRelease=true -Denforcer.skip"
     if [ "$MVN_OUTPUT" = "3" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
+        $mvn_command | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
 	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "2" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
+        $mvn_command | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
 	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "1" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $MVN clean install -s ../../../src/settings.xml -DskipTests -Drelease=true -DlegacyRelease=true -Denforcer.skip | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
+        $mvn_command | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
 	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     else
         echo "=== $msg ===" >> $BUILD_HOME/work/build.log
