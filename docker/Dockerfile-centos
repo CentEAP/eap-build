@@ -1,0 +1,28 @@
+FROM centos:8 as eap-build
+
+RUN dnf update -y && \
+    dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
+    dnf install -y java-11-openjdk wget unzip patch maven xmlstarlet
+
+WORKDIR eap-build-master
+ADD . ./
+RUN ./build-eap7.sh && \
+    unzip -q -d /opt dist/jboss-eap-*.zip && \
+    mv /opt/jboss-eap-* /opt/jboss-eap
+
+
+# =====
+FROM eclipse-temurin:11
+
+RUN groupadd -r jboss -g 1000 && \
+    useradd -u 1000 -r -g jboss -m -d /opt/jboss-eap -s /sbin/nologin -c "JBoss user" jboss && \
+    chmod 755 /opt/jboss-eap
+
+COPY --from=eap-build --chown=jboss:0 /opt/jboss-eap /opt/jboss-eap
+WORKDIR /opt/jboss-eap
+USER jboss
+
+EXPOSE 8080
+EXPOSE 9990
+
+CMD ["bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]

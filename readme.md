@@ -50,3 +50,24 @@ The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.
 Prerequisite and systems supported
 ==================================
 The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
+
+Docker build
+============
+
+You may build a docker image  :
+
+    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian .
+
+And run it :
+
+    docker run --interactive --tty --publish 8080:8080 --publish 9990:9990 hasalex/eap-build
+
+With a deployment, in detached mode :
+
+    docker run --detach --publish 8080:8080 --publish 9990:9990  \
+               --volume $(pwd)/myapp.war:/opt/jboss-eap/standalone/deployments/myapp.war  \
+               hasalex/eap-build
+
+You may want to build it without a checkout :
+
+    docker build --tag hasalex/eap-build --file docker/Dockerfile-centos git@github.com:hasalex/eap-build.git
