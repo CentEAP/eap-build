@@ -47,10 +47,6 @@ The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.7, 7.3.
 
 The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.23.
 
-Prerequisite and systems supported
-==================================
-The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
-
 Docker build
 ============
 
@@ -71,3 +67,15 @@ With a deployment, in detached mode :
 You may want to build it without a checkout :
 
     docker build --tag hasalex/eap-build --file docker/Dockerfile-centos git@github.com:hasalex/eap-build.git
+
+You may also test the build on *FreeBSD* with Vagrant :
+
+    cd vagrant-freebsd && vagrant up && vagrant ssh
+    cd eap-build
+    bash -i build-eap7.sh
+
+Prerequisite and systems supported
+==================================
+The script is in bash. 
+It should run on almost all bash-compatible systems. 
+You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.

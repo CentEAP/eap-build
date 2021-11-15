@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+
 source src/functions-common.sh
 source src/functions-7.sh
 

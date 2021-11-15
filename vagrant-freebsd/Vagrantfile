@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "freebsd/FreeBSD-12.2-STABLE"
+
+  config.vm.provider :virtualbox do |v|
+    v.customize ["modifyvm", :id, "--memory", 2048]
+  end
+
+  config.vm.synced_folder "..", "/home/vagrant/eap-build", type: "rsync", rsync__exclude: [".git", "dist", "download", "work"]
+
+  config.vm.provision "shell", inline: <<-SHELL
+    pkg update
+    pkg install -y wget unzip patch curl maven xmlstarlet openjdk11
+    echo "alias xmlstarlet='xml'" >> /home/vagrant/.bashrc
+    echo "alias tac='tail -r'" >> /home/vagrant/.bashrc
+    ln -s /usr/local/bin/bash /bin/bash
+    # bash -i build-eap7.sh
+  SHELL
+end
