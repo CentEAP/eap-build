@@ -50,7 +50,7 @@ The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.
 Docker build
 ============
 
-You may build a docker image  :
+You may build a docker image :
 
     docker build --tag hasalex/eap-build --file docker/Dockerfile-debian .
 
@@ -67,6 +67,14 @@ With a deployment, in detached mode :
 You may want to build it without a checkout :
 
     docker build --tag hasalex/eap-build --file docker/Dockerfile-centos git@github.com:hasalex/eap-build.git
+
+You may choose 
+
+* a specific version of JDK (default is 11, other valid value is 1.8.0 on centos), 
+* a version of eap to build (default is empty AKA newest) :
+
+    docker build --tag hasalex/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-debian .
+
 
 You may also test the build on *FreeBSD* with Vagrant :
 

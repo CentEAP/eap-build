@@ -1,17 +1,27 @@
-FROM debian:bullseye as eap-build
+FROM debian:bullseye as debian-jdk
+
+ARG JDK_VERSION=11
 
 RUN apt-get update && \
-    apt-get install -y openjdk-11-jdk wget unzip patch curl maven xmlstarlet
+    apt-get install -y openjdk-$JDK_VERSION-jdk
+
+
+# =====
+FROM debian-jdk as eap-build
+
+ARG EAP_VERSION
+
+RUN apt-get install -y wget unzip patch curl maven xmlstarlet
 
 WORKDIR eap-build-master
 COPY . ./
-RUN ./build-eap7.sh && \
+RUN ./build-eap7.sh $EAP_VERSION && \
     unzip -q -d /opt dist/jboss-eap-*.zip && \
     mv /opt/jboss-eap-* /opt/jboss-eap
 
 
 # =====
-FROM eclipse-temurin:11
+FROM debian-jdk
 
 RUN groupadd -r jboss -g 1000 && \
     useradd -u 1000 -r -g jboss -m -d /opt/jboss-eap -s /sbin/nologin -c "JBoss user" jboss && \
