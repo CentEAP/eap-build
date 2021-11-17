@@ -70,7 +70,7 @@ You may want to build it without a checkout :
 
 You may choose 
 
-* a specific version of JDK (default is 11, other valid value is 1.8.0 on centos), 
+* a version of JDK (default is 11), 
 * a version of eap to build (default is empty AKA newest) :
 
     docker build --tag hasalex/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-debian .

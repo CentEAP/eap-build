@@ -1,18 +1,15 @@
-FROM centos:8 as centos-java
-
 ARG JDK_VERSION=11
-
-RUN dnf update -y && \
-    dnf install -y java-$JDK_VERSION-openjdk
+ARG JDK_IMAGE=azul/zulu-openjdk-centos:$JDK_VERSION
 
 
 # =====
-FROM centos-java as eap-build
+FROM $JDK_IMAGE as eap-build
 
 ARG EAP_VERSION
 
-RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \
-    dnf install -y wget unzip patch maven xmlstarlet
+RUN yum update -y && \
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
+    yum install -y wget unzip patch maven xmlstarlet
 
 WORKDIR eap-build-master
 ADD . ./
@@ -22,7 +19,7 @@ RUN ./build-eap7.sh $EAP_VERSION && \
 
 
 # =====
-FROM centos-java
+FROM $JDK_IMAGE
 
 RUN groupadd -r jboss -g 1000 && \
     useradd -u 1000 -r -g jboss -m -d /opt/jboss-eap -s /sbin/nologin -c "JBoss user" jboss && \

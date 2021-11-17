@@ -1,17 +1,14 @@
-FROM debian:bullseye as debian-jdk
-
 ARG JDK_VERSION=11
-
-RUN apt-get update && \
-    apt-get install -y openjdk-$JDK_VERSION-jdk
+ARG JDK_IMAGE=azul/zulu-openjdk-debian:$JDK_VERSION
 
 
 # =====
-FROM debian-jdk as eap-build
+FROM $JDK_IMAGE as eap-build
 
 ARG EAP_VERSION
 
-RUN apt-get install -y wget unzip patch curl maven xmlstarlet
+RUN apt-get update -y && \
+    apt-get install -y wget unzip patch curl maven xmlstarlet
 
 WORKDIR eap-build-master
 COPY . ./
@@ -21,7 +18,7 @@ RUN ./build-eap7.sh $EAP_VERSION && \
 
 
 # =====
-FROM debian-jdk
+FROM $JDK_IMAGE
 
 RUN groupadd -r jboss -g 1000 && \
     useradd -u 1000 -r -g jboss -m -d /opt/jboss-eap -s /sbin/nologin -c "JBoss user" jboss && \
