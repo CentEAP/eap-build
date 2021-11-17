@@ -129,21 +129,21 @@ function maven_build {
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
         $mvn_command | tee -a $BUILD_HOME/work/build.log || error "Error in $msg"
-	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "2" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
         $mvn_command | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
-	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "1" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
         $mvn_command | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
-	    echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
+        echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     else
         echo "=== $msg ===" >> $BUILD_HOME/work/build.log
         $mvn_command >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
-	    echo "...done with $msg" >> $BUILD_HOME/work/build.log
+        echo "...done with $msg" >> $BUILD_HOME/work/build.log
     fi
 
     if [ -n "$1" ]
