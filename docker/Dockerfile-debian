@@ -25,8 +25,10 @@ RUN groupadd -r jboss -g 1000 && \
     chmod 755 /opt/jboss-eap
 
 COPY --from=eap-build --chown=jboss:0 /opt/jboss-eap /opt/jboss-eap
+
 WORKDIR /opt/jboss-eap
 USER jboss
+ENV LAUNCH_JBOSS_IN_BACKGROUND true
 
 EXPOSE 8080
 EXPOSE 9990

@@ -66,14 +66,15 @@ With a deployment, in detached mode :
 
 You may want to build it without a checkout :
 
-    docker build --tag hasalex/eap-build --file docker/Dockerfile-centos git@github.com:hasalex/eap-build.git
+    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian git@github.com:hasalex/eap-build.git
 
 You may choose 
 
+* an OS (debian, centos, alpine),
 * a version of JDK (default is 11), 
 * a version of eap to build (default is empty AKA newest) :
 
-    docker build --tag hasalex/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-debian .
+    docker build --tag hasalex/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-alpine .
 
 
 You may also test the build on *FreeBSD* with Vagrant :
