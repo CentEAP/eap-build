@@ -43,10 +43,10 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.7, 7.3.0->7.3.8.
+The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.7, 7.3.0->7.3.9, 7.4.0->7.4.2.
 
 The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.23.
 
 Prerequisite and systems supported
 ==================================
-The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl** and **xmlstarlet** first.
+The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
