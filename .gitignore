@@ -3,3 +3,4 @@ download
 dist
 *.zip
 .idea
+.vagrant
