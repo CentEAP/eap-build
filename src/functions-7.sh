@@ -50,7 +50,7 @@ function prepare_core_source {
 
         cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
     else
-        MAVEN_REPO=https://maven.repository.redhat.com/earlyaccess
+        MAVEN_REPO=https://maven.repository.redhat.com/ga
         if [[ $CORE_FULL_SOURCE_VERSION = *"-redhat-"* ]]
         then
             download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
@@ -159,7 +159,7 @@ function get_module_version {
 function is_supported_version {
     set +e
     supported_versions=$(get_supported_versions)
-    supported_version=$(echo "$supported_versions," | grep -G "$1,")
+    supported_version=$(echo "$supported_versions," | grep -E "$1,")
     if [ -z $supported_version ]
     then
         echo "Version $1 is not supported. Supported versions are $supported_versions"

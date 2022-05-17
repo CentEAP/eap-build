@@ -43,10 +43,48 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.7, 7.3.0->7.3.9, 7.4.0->7.4.2.
+The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.9, 7.3.0->7.3.10, 7.4.0->7.4.3.
 
 The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.23.
 
+Docker build
+============
+
+You may build a docker image :
+
+    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian .
+
+And run it :
+
+    docker run --interactive --tty --publish 8080:8080 --publish 9990:9990 hasalex/eap-build
+
+With a deployment, in detached mode :
+
+    docker run --detach --publish 8080:8080 --publish 9990:9990  \
+               --volume $(pwd)/myapp.war:/opt/jboss-eap/standalone/deployments/myapp.war  \
+               hasalex/eap-build
+
+You may want to build it without a checkout :
+
+    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian git@github.com:hasalex/eap-build.git
+
+You may choose 
+
+* an OS (debian, centos, alpine),
+* a version of JDK (default is 11), 
+* a version of eap to build (default is empty AKA newest) :
+
+    docker build --tag hasalex/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-alpine .
+
+
+You may also test the build on *FreeBSD* with Vagrant :
+
+    cd vagrant-freebsd && vagrant up && vagrant ssh
+    cd eap-build
+    bash -i build-eap7.sh
+
 Prerequisite and systems supported
 ==================================
-The script is in bash. It should run on almost all bash-compatible systems. You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
+The script is in bash. 
+It should run on almost all bash-compatible systems. 
+You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
