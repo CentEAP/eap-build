@@ -204,6 +204,13 @@ function xml_clean {
     for line in "${xml_to_insert_array[@]}"; do
         xml_insert $(echo $line| sed -e "s/,/ /g")
     done
+
+    xml_to_update=$(grep "$EAP_VERSION.xpath.update.$scope" $BUILD_HOME/src/jboss-eap-7.properties | sed -e "s/$EAP_VERSION.xpath.update.$scope=//g" | tr '\n' ' ')
+    #echo xml_to_update : $xml_to_update
+    IFS=' ' read -ra xml_to_update_array <<< $xml_to_update
+    for line in "${xml_to_update_array[@]}"; do
+        xml_update $(echo $line| sed -e "s/,/ /g")
+    done
 }
 function xml_delete {
     #echo xml_delete $*
@@ -222,6 +229,16 @@ function xml_insert {
 
     cp $file .tmp.xml
     xmlstarlet ed --insert "$xpath" --type elem --name "$value" .tmp.xml > $file
+    rm .tmp.xml
+}
+function xml_update {
+    #echo xml_update $*
+    file=$1
+    xpath=$2
+    value="$3 $4"
+
+    cp $file .tmp.xml
+    xmlstarlet ed --update "$xpath" --value "$value" .tmp.xml > $file
     rm .tmp.xml
 }
 function error {
