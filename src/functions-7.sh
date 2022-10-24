@@ -50,7 +50,7 @@ function prepare_core_source {
 
         cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
     else
-        MAVEN_REPO=https://maven.repository.redhat.com/ga
+        MAVEN_REPO=https://maven.repository.redhat.com/earlyaccess/all
         if [[ $CORE_FULL_SOURCE_VERSION = *"-redhat-"* ]]
         then
             download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
@@ -84,31 +84,18 @@ function build_eap {
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     maven_build servlet-feature-pack
 
-     # EAP 7.3
-    if [ -d feature-pack ]
-    then
-      maven_build feature-pack
-    fi
-    # EAP 7.4
-    if [ -d ee-feature-pack ]
+    if [[ "$EAP_SHORT_VERSION" > "7.3" ]]
     then
       maven_build ee-feature-pack
-    fi
-
-    # EAP 7.3/7.4
-    if [ -d dist-legacy ]
-    then
-      if [ -d dist ]
+      mv ee-dist dist
+    else
+      maven_build feature-pack
+      if [ "$EAP_SHORT_VERSION" != "7.1" ]
       then
-        # EAP 7.3
         mv dist dist-new
-      else
-        # EAP 7.4
-        mv ee-dist dist-new
+        mv dist-legacy dist
       fi
-      mv dist-legacy dist
     fi
-
     maven_build dist
     cd $BUILD_HOME
     echo "Build done for EAP $EAP_VERSION"
@@ -124,7 +111,12 @@ function maven_build {
         msg="Maven build from root"
     fi
 
-    mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -DlegacyRelease=true -Denforcer.skip"
+    if [[ "$EAP_SHORT_VERSION" > "7.3" ]]
+        then
+          mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip"
+        else
+          mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -DlegacyRelease=true -Denforcer.skip"
+        fi
     if [ "$MVN_OUTPUT" = "3" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
