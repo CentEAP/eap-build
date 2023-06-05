@@ -163,7 +163,7 @@ function get_supported_versions {
     grep 'versions' src/jboss-eap-7.properties | sed -e "s/versions=//g"
 }
 function get_default_version {
-    echo $(get_supported_versions) | sed s/,/\\n/g | sort | tac | sed -n '1p'
+    echo $(get_supported_versions) | sed s/,/\\n/g | tac | sed -n '1p'
 }
 function create_modules {
     module_names=$(grep "$EAP_VERSION.modules" $BUILD_HOME/src/jboss-eap-7.properties | sed -e "s/$EAP_VERSION.modules=//g")
