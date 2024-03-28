@@ -20,6 +20,18 @@ If you want to run the script :
     cd eap-build
     ./build-eap7.sh
 
+For EAP 8 versions, you should use
+
+    ./build-eap8.sh
+
+By default, it builds the latest EAP 8 update. You can build other versions by passing the number to the build :
+
+    ./build-eap8.sh 8.0.1
+
+For EAP 7 versions, you should use
+
+    ./build-eap7.sh
+
 By default, it builds the latest EAP 7 update. You can build other versions by passing the number to the build :
 
     ./build-eap7.sh 7.2.3
