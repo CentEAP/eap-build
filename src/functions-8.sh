@@ -41,31 +41,16 @@ function prepare_eap_source {
 function prepare_core_source {
     CORE_VERSION=$(get_module_version org.wildfly.core)
     echo "Core version: $CORE_VERSION"
-    CORE_FULL_SOURCE_VERSION=$(grep "$CORE_VERSION=" src/jboss-eap-8.properties | cut -d '=' -f 2)
+    EAP_CORE_VERSION=$(grep "$EAP_VERSION.core=" src/jboss-eap-8.properties | cut -d '=' -f 2)
 
-    if [ -z "$CORE_FULL_SOURCE_VERSION" ]
+    if [ -z "$EAP_CORE_VERSION" ]
     then
-        download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
-        mv $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src $BUILD_HOME/work/wildfly-core-$CORE_VERSION
-
-        cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
-    else
-        MAVEN_REPO=https://maven.repository.redhat.com/ga
-        if [[ $CORE_FULL_SOURCE_VERSION = *"-redhat-"* ]]
-        then
-            download_and_unzip $MAVEN_REPO/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-project-sources.tar.gz
-        else
-            download_and_unzip https://repo1.maven.org/maven2/org/wildfly/core/wildfly-core-parent/$CORE_FULL_SOURCE_VERSION/wildfly-core-parent-$CORE_FULL_SOURCE_VERSION-source-release.zip
-        fi
-
-        cd $BUILD_HOME/work
-        mkdir wildfly-core-$CORE_VERSION
-        cp -r wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/core-feature-pack wildfly-core-$CORE_VERSION/
-        cp wildfly-core-parent-$CORE_FULL_SOURCE_VERSION/checkstyle-suppressions.xml wildfly-core-$CORE_VERSION/core-feature-pack/
-
-        cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
-        wget --output-file=$BUILD_HOME/work/build.log $MAVEN_REPO/org/wildfly/core/wildfly-core-feature-pack/$CORE_VERSION/wildfly-core-feature-pack-$CORE_VERSION.pom -O pom.xml
+        EAP_CORE_VERSION=$EAP_VERSION
     fi
+    download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_CORE_VERSION/en/source/jboss-eap-$EAP_CORE_VERSION-core-src.zip
+    mv $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src $BUILD_HOME/work/wildfly-core-$CORE_VERSION
+
+    cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
 
     xml_clean core
     create_modules .
@@ -180,6 +165,12 @@ function xml_clean {
     for line in "${xml_to_insert_array[@]}"; do
         xml_insert $(echo $line| sed -e "s/,/ /g")
     done
+
+    xml_to_update=$(grep "$EAP_VERSION.xpath.update.$scope" $BUILD_HOME/src/jboss-eap-8.properties | sed -e "s/$EAP_VERSION.xpath.update.$scope=//g" | tr '\n' ' ')
+    IFS=' ' read -ra xml_to_update_array <<< $xml_to_update
+    for line in "${xml_to_update_array[@]}"; do
+        xml_update $(echo $line| sed -e "s/,/ /g")
+    done
 }
 function xml_delete {
     #echo xml_delete $*
@@ -197,7 +188,18 @@ function xml_insert {
     value="$3 $4"
 
     cp $file .tmp.xml
+    #echo xmlstarlet ed --insert "$xpath" --type elem --name "$value"
     xmlstarlet ed --insert "$xpath" --type elem --name "$value" .tmp.xml > $file
+    rm .tmp.xml
+}
+function xml_update {
+    #echo xml_update $*
+    file=$1
+    xpath=$2
+    value="$3"
+
+    cp $file .tmp.xml
+    xmlstarlet ed --update $xpath --value $value .tmp.xml > $file
     rm .tmp.xml
 }
 function error {
