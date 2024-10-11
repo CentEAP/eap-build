@@ -51,7 +51,7 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-The build-eap8.sh script supports 8.0.0
+The build-eap8.sh script supports 8.0.0, 8.0.4
 
 The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.9, 7.3.0->7.3.10, 7.4.0->7.4.17
 
@@ -94,7 +94,7 @@ You may also test the build on *FreeBSD* with Vagrant :
     bash -i build-eap7.sh
 
 Prerequisite and systems supported
-==================================
+==================================s
 The script is in bash. 
 It should run on almost all bash-compatible systems. 
 You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
