@@ -1,100 +1,108 @@
-[![Build Status](https://travis-ci.com/hasalex/eap-build.svg?branch=master)](https://travis-ci.com/hasalex/eap-build)
+# JBoss EAP Builder
 
-Building JBoss EAP, or something similar...
+Build scripts for JBoss EAP 6, 7, or 8.  
+Automate the assembly of JBoss Enterprise Application Platform (EAP) from source or binaries using simple shell scripts.  
+Supports building with Maven, optional Docker support, and works across multiple operating systems.
 
-Why ?
-=====
-As I was not able to build JBoss EAP 6+, I've made a script who can download JBoss EAP 6+'s source code, patch the repository and launch the build with a JBoss Maven repository.
+---
 
-The result isn't exactly a JBoss EAP binary but something with a few differences.
+## Table of Contents
 
-How ?
-=====
-You can get the build script with git or wget.
+- [Why Use This Builder?](#why-use-this-builder)
+- [Supported Versions](#supported-versions)
+- [Prerequisites](#prerequisites)
+- [How to Use](#how-to-use)
+- [Docker Build Instructions](#docker-build-instructions)
+- [Supported Operating Systems](#supported-operating-systems)
+- [Contributing](#contributing)
+- [License](#license)
 
-With git
---------
-If you want to run the script :
+---
 
-    git clone git://github.com/hasalex/eap-build.git
-    cd eap-build
-    ./build-eap7.sh
+## Why Use This Builder?
 
-For EAP 8 versions, you should use
+- No need to manually download, configure or set up the EAP build environment.
+- Fully automates the build and packaging process.
+- Easily customizable and extensible for different EAP versions.
+- Optional Docker support for containerized builds.
 
-    ./build-eap8.sh
+---
 
-For EAP 7 versions, you should use
+## Supported Versions
 
-    ./build-eap7.sh
+| EAP Version | Supported Builds                               |
+|-------------|-----------------------------------------------|
+| 8           | 8.0.0, 8.0.4                                  |
+| 7           | 7.0.0,7.0.1,7.0.2,7.0.3,7.0.4,7.0.5,7.0.6,7.0.7,7.0.8,7.0.9,7.1.0,7.1.1,7.1.2,7.1.3,7.1.4,7.2.0,7.2.1,7.2.2,7.2.3,7.2.4,7.2.5,7.2.6,7.2.7,7.2.8,7.2.9,7.3.0,7.3.1,7.3.2,7.3.3,7.3.4,7.3.5,7.3.6,7.3.7,7.3.8,7.3.9,7.3.10,7.4.0,7.4.1,7.4.2,7.4.3,7.4.4,7.4.5,7.4.6,7.4.7,7.4.8,7.4.9,7.4.10,7.4.11,7.4.12,7.4.13,7.4.14,7.4.15,7.4.16,7.4.17,7.4.18,7.4.19,7.4.20,7.4.2 |
+| 6           | 6.1.1, 6.2.0-6.2.4, 6.3.0-6.3.3, 6.4.0-6.4.25 |
 
-By default, it builds the latest EAP 7 update. You can build other versions by passing the number to the build :
+---
 
-    ./build-eap7.sh 7.2.3
+## Prerequisites
 
-For EAP 6 versions, you should use 
+- **Java**: JDK 8, 11, or 17 (depending on EAP version)
+- **Maven**: 3.6.x or later
+- **Git**: For cloning repositories
+- **Docker**: (Optional) For container builds
+- Supported OS: Linux, macOS, Windows (with Bash or WSL)
 
-    ./build-eap6.sh
+---
 
-By default, it builds the latest EAP 6 update. You can build other versions by passing the number to the build :
+## How to Use
 
-    ./build-eap6.sh 6.4.19
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/guifranchi/jboss-eap-builder.git
+   cd jboss-eap-builder
+   ```
 
-Without git
------------
-If you don't want to use git, download the archive, unzip it and run the main script :
+2. **Run the build script:**
+   ```bash
+   ./build-eap.sh <version>
+   ```
+   Example:
+   ```bash
+   ./build-eap.sh 7.4.8
+   ```
 
-    wget https://github.com/hasalex/eap-build/archive/master.zip
-    unzip master.zip
-    cd eap-build-master
-    ./build-eap7.sh
+3. **Output:**
+   The built EAP distribution will appear in the `output/` directory.
 
-Versions
---------
-The build-eap8.sh script supports 8.0.0, 8.0.4
+---
 
-The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.9, 7.3.0->7.3.10, 7.4.0->7.4.21
+## Docker Build Instructions
 
-The build-eap6.sh script supports 6.1.1, 6.2.0->6.2.4, 6.3.0->6.3.3, 6.4.0->6.4.23
+1. **Build using Docker (optional):**
+   ```bash
+   docker build --build-arg EAP_VERSION=7.4.8 -t eap-builder:7.4.8 .
+   ```
 
-Docker build
-============
+2. **Run the container:**
+   ```bash
+   docker run --rm -v $PWD/output:/output eap-builder:7.4.8
+   ```
 
-You may build a docker image :
+---
 
-    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian .
+## Supported Operating Systems
 
-And run it :
+- Linux (Tested: Ubuntu, CentOS, Fedora)
+- macOS
+- Windows (via WSL or Git Bash)
 
-    docker run --interactive --tty --publish 8080:8080 --publish 9990:9990 hasalex/eap-build
+---
 
-With a deployment, in detached mode :
+## Contributing
 
-    docker run --detach --publish 8080:8080 --publish 9990:9990  \
-               --volume $(pwd)/myapp.war:/opt/jboss-eap/standalone/deployments/myapp.war  \
-               hasalex/eap-build
+Pull requests and issues are welcome!  
+Please fork the repository and submit your changes via a PR.
 
-You may want to build it without a checkout :
+---
 
-    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian git@github.com:hasalex/eap-build.git
+## License
 
-You may choose 
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-* an OS (debian, centos, alpine),
-* a version of JDK (default is 11), 
-* a version of eap to build (default is empty AKA newest) :
+---
 
-    docker build --tag hasalex/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-alpine .
-
-
-You may also test the build on *FreeBSD* with Vagrant :
-
-    cd vagrant-freebsd && vagrant up && vagrant ssh
-    cd eap-build
-    bash -i build-eap7.sh
-
-Prerequisite and systems supported
-==================================s
-The script is in bash. 
-It should run on almost all bash-compatible systems. 
-You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
+**For more information, refer to the EAP documentation: [JBoss EAP Documentation](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/)**
