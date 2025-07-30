@@ -52,7 +52,7 @@ Supports building with Maven, optional Docker support, and works across multiple
 - **Maven**: 3.6.x or later
 - **Git**: For cloning repositories
 - **Docker**: (Optional) For container builds
-- Supported OS: Linux, macOS, Windows (with Bash or WSL)
+- **Supported OS**: Linux, macOS, Windows (with Bash or WSL)
 
 ---
 
