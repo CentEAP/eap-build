@@ -217,8 +217,8 @@ function xml_insert {
     rm .tmp.xml
 }
 function error {
-    log >&2 $1
-    echo >&2 ""
-    log >&2 "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
+    log $1
+    echo ""
+    log "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
     exit 1
 }
