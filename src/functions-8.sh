@@ -11,7 +11,7 @@ function set_version {
 
     if [ -f dist/jboss-eap-$EAP_VERSION.zip ]
     then
-        echo "EAP version $EAP_VERSION already built. If you wanna build it again, remove the dist/jboss-eap-$EAP_VERSION.zip file" 
+        log "EAP version $EAP_VERSION already built. If you wanna build it again, remove the dist/jboss-eap-$EAP_VERSION.zip file" 
         exit 0
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
@@ -19,7 +19,7 @@ function set_version {
     BUILD_HOME=$(pwd)
     #echo BUILD_HOME=$BUILD_HOME
 
-    echo "Here we go. Building EAP version $EAP_VERSION."
+    log "Here we go. Building EAP version $EAP_VERSION."
 }
 
 function prepare_eap_source {
@@ -40,7 +40,7 @@ function prepare_eap_source {
 
 function prepare_core_source {
     CORE_VERSION=$(get_module_version org.wildfly.core)
-    echo "Core version: $CORE_VERSION"
+    log "Core version: $CORE_VERSION"
     EAP_CORE_VERSION=$(grep "$EAP_VERSION.core=" src/jboss-eap-8.properties | cut -d '=' -f 2)
 
     if [ -z "$EAP_CORE_VERSION" ]
@@ -62,7 +62,7 @@ function build_core {
     cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION
     maven_build core-feature-pack
     cd $BUILD_HOME
-    echo "Build done for Core $CORE_VERSION"
+    log "Build done for Core $CORE_VERSION"
 }
 
 function build_eap {
@@ -71,7 +71,7 @@ function build_eap {
     mv ee-dist dist
     maven_build dist
     cd $BUILD_HOME
-    echo "Build done for EAP $EAP_VERSION"
+    log "Build done for EAP $EAP_VERSION"
 }
 
 function maven_build {
@@ -123,7 +123,7 @@ function is_supported_version {
     supported_version=$(echo "$supported_versions," | grep -E "$1,")
     if [ -z $supported_version ]
     then
-        echo "Version $1 is not supported. Supported versions are $supported_versions"
+        log "Version $1 is not supported. Supported versions are $supported_versions"
         exit 1
     fi
     set -e
@@ -203,8 +203,8 @@ function xml_update {
     rm .tmp.xml
 }
 function error {
-    echo >&2 $1
+    log >&2 $1
     echo >&2 ""
-    echo >&2 "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
+    log >&2 "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
     exit 1
 }

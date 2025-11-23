@@ -7,7 +7,7 @@ function check_commands {
     done
 }
 function check_command {
-    command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed.  Aborting."; exit 1; }
+    command -v $1 >/dev/null 2>&1 || { log >&2 "$1 is not installed.  Aborting."; exit 1; }
 }
 
 function check_md5 {
@@ -16,34 +16,34 @@ function check_md5 {
 
     if [ ! -f download/$FILENAME.md5 ]
     then
-        echo "WARN : no checksum available for $FILENAME : download/$FILENAME.md5"
+        log "WARN : no checksum available for $FILENAME : download/$FILENAME.md5"
         return
     fi
 
     # Linux and Cygwin
     if command -v md5sum >/dev/null
     then
-        md5sum -c download/$FILENAME.md5 || STATUS=$?
+        md5sum --quiet -c download/$FILENAME.md5 || STATUS=$?
     # MacOS : beware the double space
     elif command -v md5 >/dev/null
     then
         check_commands cut
         if [ "$(md5 -q download/$FILENAME)" != "$(cat download/$FILENAME.md5 | cut -d ' ' -f 1)" ]
-	then
+    	then
             STATUS=1
         fi
     else
-        echo "WARN : no checksum command available"
+        log "WARN : no checksum command available"
         return
     fi
 
     if [ "$STATUS" == "0" ]
     then
-        echo "Checksum verified for $FILENAME"
+        log "Checksum verified for $FILENAME"
     else
-        echo "==== FAIL ===="
-        echo "Checksum verification failed for $FILENAME"
-        echo "=============="
+        log "==== FAIL ===="
+        log "Checksum verification failed for $FILENAME"
+        log "=============="
         exit 1	      
     fi
 }
@@ -77,10 +77,10 @@ function download_and_unzip {
     
     if [ ! -f download/$FILENAME ]
     then
-        echo "Trying to download $FILENAME from $URL."
+        log "Trying to download $FILENAME from $URL."
         wget --output-file=$BUILD_HOME/work/build.log --timeout=30 --tries=2 --directory-prefix=download $URL
     else
-        echo "File $FILENAME already here. No need to download it again."
+        log "File $FILENAME already here. No need to download it again."
     fi
 
     download_md5 $URL
@@ -90,16 +90,16 @@ function download_and_unzip {
     then
         if [[ $FILENAME == *zip ]]
         then
-            echo "Unzipping $FILENAME"
+            log "Unzipping $FILENAME"
             unzip -q -d work download/$FILENAME
-            echo "$FILENAME unzipped"
+            log "$FILENAME unzipped"
         else
-            echo "Decompressing $FILENAME"
+            log "Decompressing $FILENAME"
             tar -xzf download/$FILENAME -C work
-            echo "$FILENAME decompressed"
+            log "$FILENAME decompressed"
         fi
     else
-        echo "Download failed."
+        log "Download failed."
         exit 1
     fi
 }
@@ -110,10 +110,10 @@ function save_result {
 
     if [ -f dist/jboss-eap-$EAP_VERSION.zip ]
     then
-        echo "Build done. Check your dist directory for the new eap zip file (jboss-eap-$EAP_VERSION.zip)."
+        log "Build done. Check your dist directory for the new eap zip file (jboss-eap-$EAP_VERSION.zip)."
         exit 0
     else
-        echo "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
+        log "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
         exit 1
     fi
 }
@@ -134,3 +134,7 @@ function portable_dos2unix {
 	mv tmp.file $1
 }
 
+function log {
+    now=$(date --date now +"%H:%M:%S")
+    echo "$now - $1"
+}
