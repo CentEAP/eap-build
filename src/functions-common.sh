@@ -135,6 +135,6 @@ function portable_dos2unix {
 }
 
 function log {
-    now=$(date --date now +"%H:%M:%S")
+    now=$(date +"%H:%M:%S")
     echo "$now - $1"
 }
