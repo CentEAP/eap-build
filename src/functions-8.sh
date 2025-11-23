@@ -16,8 +16,7 @@ function set_version {
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
-    BUILD_HOME=$(pwd)
-    #echo BUILD_HOME=$BUILD_HOME
+    export BUILD_HOME=$(pwd)
 
     log "Here we go. Building EAP version $EAP_VERSION."
 }
@@ -60,6 +59,7 @@ function prepare_core_source {
 
 function build_core {
     cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION
+    maven_exec "dependency:get -Dartifact=org.jboss:jboss-parent:36:pom"
     maven_build core-feature-pack
     cd $BUILD_HOME
     log "Build done for Core $CORE_VERSION"
@@ -75,16 +75,20 @@ function build_eap {
 }
 
 function maven_build {
-    settings=$(pwd)/../../src/settings.xml
-    if [ -n "$1" ]
-    then
-        msg="Maven build for $1"
-        cd $1
-    else
-        msg="Maven build from root"
-    fi
+    maven_exec "clean install" $1 
+}
 
-    mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip"
+function maven_exec {
+    settings=$BUILD_HOME/src/settings.xml
+    mvn_command="$MVN $1 -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip -Dmaven.repo.local=$BUILD_HOME/work/m2"
+    if [ -n "$2" ]
+    then
+        msg="Maven $1 for $2"
+        cd $2
+    else
+        msg="Maven $1 from root"
+        mvn_command="$mvn_command -fn"
+    fi
 
     if [ "$MVN_OUTPUT" = "3" ]
     then
@@ -107,7 +111,7 @@ function maven_build {
         echo "...done with $msg" >> $BUILD_HOME/work/build.log
     fi
 
-    if [ -n "$1" ]
+    if [ -n "$2" ]
     then
         cd ..
     fi
