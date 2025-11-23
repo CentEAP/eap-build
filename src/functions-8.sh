@@ -80,7 +80,7 @@ function maven_build {
 
 function maven_exec {
     settings=$BUILD_HOME/src/settings.xml
-    mvn_command="$MVN $1 -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip -Dmaven.repo.local=$BUILD_HOME/work/m2"
+    mvn_command="$MVN $1 -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip"
     if [ -n "$2" ]
     then
         msg="Maven $1 for $2"
