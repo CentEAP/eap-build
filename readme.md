@@ -94,7 +94,10 @@ You may also test the build on *FreeBSD* with Vagrant :
     bash -i build-eap7.sh
 
 Prerequisite and systems supported
-==================================s
+==================================
 The script is in bash. 
 It should run on almost all bash-compatible systems. 
 You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
+
+Prerequisite on JDK are the same as JBoss EAP.
+Build needs JDK 17+ for EAP 8.x and JDK 8+ for EAP 7.x.
