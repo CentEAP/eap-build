@@ -1,4 +1,4 @@
-# JBoss EAP Builder
+# JBoss Enterprise Application Platform (EAP) Builder
 
 Build scripts for JBoss EAP 6, 7, or 8.  
 Automate the assembly of JBoss Enterprise Application Platform (EAP) from source or binaries using simple shell scripts.  
