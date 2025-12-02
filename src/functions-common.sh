@@ -41,10 +41,7 @@ function check_md5 {
     then
         log "Checksum verified for $FILENAME"
     else
-        log "==== FAIL ===="
-        log "Checksum verification failed for $FILENAME"
-        log "=============="
-        exit 1	      
+        failed "Checksum verification failed for $FILENAME"
     fi
 }
 
@@ -91,7 +88,7 @@ function download_and_unzip {
         if [[ $FILENAME == *zip ]]
         then
             log "Unzipping $FILENAME"
-            unzip -q -d work download/$FILENAME
+            unzip -q -u -d work download/$FILENAME
             log "$FILENAME unzipped"
         else
             log "Decompressing $FILENAME"
@@ -99,8 +96,7 @@ function download_and_unzip {
             log "$FILENAME decompressed"
         fi
     else
-        log "Download failed."
-        exit 1
+        failed "Download failed."
     fi
 }
 
@@ -110,11 +106,10 @@ function save_result {
 
     if [ -f dist/jboss-eap-$EAP_VERSION.zip ]
     then
-        log "Build done. Check your dist directory for the new eap zip file (jboss-eap-$EAP_VERSION.zip)."
-        exit 0
+        finished "Build done. Check your dist directory for the new eap zip file (jboss-eap-$EAP_VERSION.zip)."
     else
-        log "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
-        exit 1
+        failed "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
+        
     fi
 }
 
@@ -129,12 +124,18 @@ function make_directory {
     fi    
 }
 
-function portable_dos2unix {
-	cat $1 | col -b > tmp.file
-	mv tmp.file $1
-}
-
 function log {
     now=$(date +"%H:%M:%S")
     echo "$now - $1"
+}
+
+function finished {
+    log "$1"
+    notify-send "EAP build done" 2> /dev/null
+    exit 0
+}
+function failed {
+    log "$1"
+    notify-send "EAP build failed" 2> /dev/null
+    exit 1
 }

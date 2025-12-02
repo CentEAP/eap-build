@@ -11,8 +11,7 @@ function set_version {
 
     if [ -f dist/jboss-eap-$EAP_VERSION.zip ]
     then
-        log "EAP version $EAP_VERSION already built. If you wanna build it again, remove the dist/jboss-eap-$EAP_VERSION.zip file" 
-        exit 0
+        finished "EAP version $EAP_VERSION already built. If you wanna build it again, remove the dist/jboss-eap-$EAP_VERSION.zip file" 
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
@@ -26,14 +25,9 @@ function prepare_eap_source {
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     xml_clean eap
     cd $BUILD_HOME/work
-    if [ -f jboss-eap-$EAP_SHORT_VERSION-src/mvnw ] 
-    then
-        MVN=$PWD/jboss-eap-$EAP_SHORT_VERSION-src/mvnw
-        export MAVEN_BASEDIR=$PWD/jboss-eap-$EAP_SHORT_VERSION-src
-    else
-        jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh
-        MVN=$PWD/maven/bin/mvn
-    fi
+    MVN=$PWD/jboss-eap-$EAP_SHORT_VERSION-src/mvnw
+    export MAVEN_BASEDIR=$PWD/jboss-eap-$EAP_SHORT_VERSION-src
+
     cd $BUILD_HOME
 }
 
@@ -47,29 +41,30 @@ function prepare_core_source {
         EAP_CORE_VERSION=$EAP_VERSION
     fi
     download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_CORE_VERSION/en/source/jboss-eap-$EAP_CORE_VERSION-core-src.zip
-    mv $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src $BUILD_HOME/work/wildfly-core-$CORE_VERSION
-
-    cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
+    cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src
 
     xml_clean core
-    create_modules .
 
     cd $BUILD_HOME
 }
 
 function build_core {
-    cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION
-    maven_exec "dependency:get -Dartifact=org.jboss:jboss-parent:36:pom"
-    maven_build core-feature-pack
+    cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src
+    maven_build core-feature-pack/galleon-feature-pack,core-feature-pack/galleon-common
     cd $BUILD_HOME
     log "Build done for Core $CORE_VERSION"
 }
 
 function build_eap {
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
-    maven_build ee-feature-pack
-    mv ee-dist dist
-    maven_build dist
+    if [ -d dist ]
+    then
+        maven_build "client/shade,dist"
+    else
+        # version 8.0 does not have a dist directory
+        maven_build "client/shade,ee-dist"
+        mv ee-dist dist
+    fi
     cd $BUILD_HOME
     log "Build done for EAP $EAP_VERSION"
 }
@@ -80,14 +75,14 @@ function maven_build {
 
 function maven_exec {
     settings=$BUILD_HOME/src/settings.xml
-    mvn_command="$MVN $1 -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip"
+    mvn_options="--no-transfer-progress --settings $settings -Dquickly -Dmaven.test.skip -Drelease=true"
     if [ -n "$2" ]
     then
         msg="Maven $1 for $2"
-        cd $2
+        mvn_command="$MVN $1 --projects $2 --also-make $mvn_options"
     else
         msg="Maven $1 from root"
-        mvn_command="$mvn_command -fn"
+        mvn_command="$MVN $1 $mvn_options"
     fi
 
     if [ "$MVN_OUTPUT" = "3" ]
@@ -110,11 +105,6 @@ function maven_exec {
         $mvn_command >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
         echo "...done with $msg" >> $BUILD_HOME/work/build.log
     fi
-
-    if [ -n "$2" ]
-    then
-        cd ..
-    fi
 }
 
 function get_module_version {
@@ -127,8 +117,7 @@ function is_supported_version {
     supported_version=$(echo "$supported_versions," | grep -E "$1,")
     if [ -z $supported_version ]
     then
-        log "Version $1 is not supported. Supported versions are $supported_versions"
-        exit 1
+        failed "Version $1 is not supported. Supported versions are $supported_versions"
     fi
     set -e
 }
@@ -137,20 +126,6 @@ function get_supported_versions {
 }
 function get_default_version {
     echo $(get_supported_versions) | sed s/,/\\n/g | tac | sed -n '1p'
-}
-function create_modules {
-    module_names=$(grep "$EAP_VERSION.modules" $BUILD_HOME/src/jboss-eap-8.properties | sed -e "s/$EAP_VERSION.modules=//g")
-    IFS=',' read -ra module_names_array <<< $module_names
-    for module_name in "${module_names_array[@]}"; do
-        create_module $module_name $1
-    done
-}
-function create_module {
-    # Create an empty jboss module
-    module_name=$1
-    module_dir=$2/src/main/resources/modules/system/layers/base/$(echo $module_name | sed 's:\.:/:g')/main
-    mkdir -p $module_dir
-    echo -e "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<module xmlns=\"urn:jboss:module:1.3\" name=\"$module_name\">\n</module>" > $module_dir/module.xml
 }
 
 function xml_clean {
@@ -177,13 +152,17 @@ function xml_clean {
     done
 }
 function xml_delete {
-    #echo xml_delete $*
-    file=$1
-    xpath=$2
+    # echo xml_delete $*
+    params=("$@")
+    nb_params=$#
+    xpath="${params[$nb_params-1]}" # last parameter
 
-    cp $file .tmp.xml
-    xmlstarlet ed --delete $xpath .tmp.xml > $file
-    rm .tmp.xml
+    for ((i=0; i<$#-1; i++)); do
+        file=${params[$i]}
+        cp $file .tmp.xml
+        xmlstarlet ed --delete $xpath .tmp.xml > $file
+        rm .tmp.xml
+    done
 }
 function xml_insert {
     #echo xml_insert $*
@@ -207,8 +186,7 @@ function xml_update {
     rm .tmp.xml
 }
 function error {
-    log >&2 $1
-    echo >&2 ""
-    log >&2 "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
-    exit 1
+    log $1
+    echo ""
+    failed "Build failed. You may have a look at the work/build.log file, maybe you'll find the reason why it failed."
 }

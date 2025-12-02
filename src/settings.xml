@@ -7,9 +7,8 @@
   <!-- <localRepository>${env.BUILD_HOME}/work/m2</localRepository> -->
           
   <profiles>
-
     <profile>
-      <id>public-repositories</id>
+      <id>public</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
@@ -27,7 +26,7 @@
           </snapshots>
         </repository>
         <repository>
-          <id>jboss-public-repo</id>
+          <id>jboss-public</id>
           <name>JBoss Public Repository Group</name>
           <url>http://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
@@ -55,7 +54,7 @@
           </snapshots>
         </pluginRepository>
         <pluginRepository>
-          <id>jboss-public-repo</id>
+          <id>jboss-public</id>
           <name>JBoss Public Repository Group</name>
           <url>http://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
@@ -73,7 +72,7 @@
 
     <!-- Configure the JBoss EAP Maven repository -->
     <profile>
-      <id>jboss-eap-maven-repository</id>
+      <id>jboss-eap</id>
       <repositories>
         <repository>
           <id>jboss-eap</id>
@@ -88,7 +87,7 @@
       </repositories>
       <pluginRepositories>
         <pluginRepository>
-          <id>jboss-eap-maven-plugin-repository</id>
+          <id>jboss-eap</id>
           <url>https://maven.repository.redhat.com/ga/</url>
           <releases>
             <enabled>true</enabled>
@@ -101,7 +100,7 @@
     </profile>
 
     <profile>
-      <id>jboss-eap-maven-repository-ea</id>
+      <id>jboss-eap-ea</id>
       <repositories>
         <repository>
           <id>jboss-eap</id>
@@ -116,7 +115,7 @@
       </repositories>
       <pluginRepositories>
         <pluginRepository>
-          <id>jboss-eap-maven-plugin-repository</id>
+          <id>jboss-eap</id>
           <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
           <releases>
             <enabled>true</enabled>
@@ -131,8 +130,8 @@
   </profiles>
 
   <activeProfiles>
-    <activeProfile>public-repositories</activeProfile>
-    <activeProfile>jboss-eap-maven-repository</activeProfile>
+    <activeProfile>public</activeProfile>
+    <activeProfile>jboss-eap</activeProfile>
   </activeProfiles>
 
 </settings>

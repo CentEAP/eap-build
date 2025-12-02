@@ -44,14 +44,14 @@ Without git
 -----------
 If you don't want to use git, download the archive, unzip it and run the main script :
 
-    wget https://github.com/hasalex/eap-build/archive/master.zip
+    wget https://github.com/CentEAP/eap-build/archive/master.zip
     unzip master.zip
     cd eap-build-master
     ./build-eap7.sh
 
 Versions
 --------
-The build-eap8.sh script supports 8.0.0, 8.0.4
+The build-eap8.sh script supports 8.0.0, 8.0.4, 8.1.0, 8.1.1
 
 The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.9, 7.3.0->7.3.10, 7.4.0->7.4.23
 
