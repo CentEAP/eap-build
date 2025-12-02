@@ -154,7 +154,8 @@ function xml_clean {
 function xml_delete {
     # echo xml_delete $*
     params=("$@")
-    xpath="${params[-1]}" # last parameter
+    nb_params=$#
+    xpath="${params[$nb_params-1]}" # last parameter
 
     for ((i=0; i<$#-1; i++)); do
         file=${params[$i]}
