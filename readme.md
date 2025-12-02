@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/hasalex/eap-build.svg?branch=master)](https://travis-ci.com/hasalex/eap-build)
-
 Building JBoss EAP, or something similar...
 
 Why ?
@@ -16,19 +14,25 @@ With git
 --------
 If you want to run the script :
 
-    git clone git://github.com/hasalex/eap-build.git
+    git clone git://github.com/CentEAP/eap-build.git
     cd eap-build
-    ./build-eap7.sh
+    ./build-eap8.sh
 
 For EAP 8 versions, you should use
 
     ./build-eap8.sh
 
+By default, it builds the latest EAP 8 update. 
+You can build other versions by passing the number to the build :
+
+    ./build-eap8.sh 8.0.8
+
 For EAP 7 versions, you should use
 
     ./build-eap7.sh
 
-By default, it builds the latest EAP 7 update. You can build other versions by passing the number to the build :
+By default, it builds the latest EAP 7 update. 
+You can build other versions by passing the number to the build :
 
     ./build-eap7.sh 7.2.3
 
@@ -36,7 +40,8 @@ For EAP 6 versions, you should use
 
     ./build-eap6.sh
 
-By default, it builds the latest EAP 6 update. You can build other versions by passing the number to the build :
+By default, it builds the latest EAP 6 update. 
+You can build other versions by passing the number to the build :
 
     ./build-eap6.sh 6.4.19
 
@@ -47,11 +52,11 @@ If you don't want to use git, download the archive, unzip it and run the main sc
     wget https://github.com/CentEAP/eap-build/archive/master.zip
     unzip master.zip
     cd eap-build-master
-    ./build-eap7.sh
+    ./build-eap8.sh
 
 Versions
 --------
-The build-eap8.sh script supports 8.0.0, 8.0.4, 8.1.0, 8.1.1
+The build-eap8.sh script supports 8.0.x, 8.1.0->8.1.1
 
 The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.9, 7.3.0->7.3.10, 7.4.0->7.4.23
 
@@ -62,21 +67,21 @@ Docker build
 
 You may build a docker image :
 
-    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian .
+    docker build --tag CentEAP/eap-build --file docker/Dockerfile-debian .
 
 And run it :
 
-    docker run --interactive --tty --publish 8080:8080 --publish 9990:9990 hasalex/eap-build
+    docker run --interactive --tty --publish 8080:8080 --publish 9990:9990 CentEAP/eap-build
 
 With a deployment, in detached mode :
 
     docker run --detach --publish 8080:8080 --publish 9990:9990  \
                --volume $(pwd)/myapp.war:/opt/jboss-eap/standalone/deployments/myapp.war  \
-               hasalex/eap-build
+               CentEAP/eap-build
 
 You may want to build it without a checkout :
 
-    docker build --tag hasalex/eap-build --file docker/Dockerfile-debian git@github.com:hasalex/eap-build.git
+    docker build --tag CentEAP/eap-build --file docker/Dockerfile-debian git@github.com:CentEAP/eap-build.git
 
 You may choose 
 
@@ -84,14 +89,14 @@ You may choose
 * a version of JDK (default is 11), 
 * a version of eap to build (default is empty AKA newest) :
 
-    docker build --tag hasalex/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-alpine .
+    docker build --tag CentEAP/eap-build:7.3.9_jdk8 --build-arg JDK_VERSION=8 --build-arg EAP_VERSION=7.3.9 --file docker/Dockerfile-alpine .
 
 
 You may also test the build on *FreeBSD* with Vagrant :
 
     cd vagrant-freebsd && vagrant up && vagrant ssh
     cd eap-build
-    bash -i build-eap7.sh
+    bash -i build-eap8.sh
 
 Prerequisite and systems supported
 ==================================
