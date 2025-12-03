@@ -94,9 +94,9 @@ You may choose
 
 You may also test the build on *FreeBSD* with Vagrant :
 
-    cd vagrant-freebsd && vagrant up && vagrant ssh
-    cd eap-build
-    bash -i build-eap8.sh
+    user@ubuntu $ cd vagrant-freebsd && vagrant up
+    user@ubuntu $ vagrant ssh
+    vagrant@freebsd:~ % cd eap-build/ && bash -i build-eap8.sh
 
 Prerequisite and systems supported
 ==================================
@@ -105,4 +105,4 @@ It should run on almost all bash-compatible systems.
 You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **curl**, **maven** and **xmlstarlet** first.
 
 Prerequisite on JDK are the same as JBoss EAP.
-Build needs JDK 17+ for EAP 8.x and JDK 8+ for EAP 7.x.
+Build needs JDK 17+ for EAP 8.1, JDK 11+ for EAP 8.0 and JDK 8+ for EAP 7.x.
