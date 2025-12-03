@@ -47,7 +47,7 @@ function prepare_core_source {
 
 function build_core {
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src
-    maven_build core-feature-pack/galleon-feature-pack,core-feature-pack/galleon-common,core-feature-pack/common
+    maven_build testbom,core-feature-pack/galleon-feature-pack,core-feature-pack/galleon-common,core-feature-pack/common
     cd $BUILD_HOME
     log "Build done for Core $CORE_VERSION"
 }
