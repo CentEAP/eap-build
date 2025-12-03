@@ -23,34 +23,31 @@ function set_version {
 function prepare_eap_source {
     download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/$SRC_FILE
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
+    xml_delete_test_dependencies
     xml_clean eap
-    cd $BUILD_HOME/work
-    MVN=$PWD/jboss-eap-$EAP_SHORT_VERSION-src/mvnw
-    export MAVEN_BASEDIR=$PWD/jboss-eap-$EAP_SHORT_VERSION-src
 
     cd $BUILD_HOME
+
+    MVN=$BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src/mvnw
 }
 
 function prepare_core_source {
-    CORE_VERSION=$(get_module_version org.wildfly.core)
-    log "Core version: $CORE_VERSION"
-    EAP_CORE_VERSION=$(grep "$EAP_VERSION.core=" src/jboss-eap-8.properties | cut -d '=' -f 2)
-
-    if [ -z "$EAP_CORE_VERSION" ]
-    then
-        EAP_CORE_VERSION=$EAP_VERSION
-    fi
-    download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_CORE_VERSION/en/source/jboss-eap-$EAP_CORE_VERSION-core-src.zip
+    download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src
-
+    xml_delete_test_dependencies
     xml_clean core
+    
+    CORE_VERSION=$(xmlstarlet sel --template --value-of "/_:project/_:version" pom.xml)
+    log "Core version: $CORE_VERSION"
 
     cd $BUILD_HOME
+
+    MVN=$BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src/mvnw
 }
 
 function build_core {
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src
-    maven_build core-feature-pack/galleon-feature-pack,core-feature-pack/galleon-common
+    maven_build core-feature-pack/galleon-feature-pack,core-feature-pack/galleon-common,core-feature-pack/common
     cd $BUILD_HOME
     log "Build done for Core $CORE_VERSION"
 }
@@ -75,7 +72,7 @@ function maven_build {
 
 function maven_exec {
     settings=$BUILD_HOME/src/settings.xml
-    mvn_options="--no-transfer-progress --settings $settings -Dquickly -Dmaven.test.skip -Drelease=true"
+    mvn_options="--no-transfer-progress --settings $settings -Dquickly -Dmaven.test.skip -Drelease=true -Dversion.org.wildfly.core=$CORE_VERSION"
     if [ -n "$2" ]
     then
         msg="Maven $1 for $2"
@@ -105,10 +102,6 @@ function maven_exec {
         $mvn_command >> $BUILD_HOME/work/build.log 2>&1 || error "Error in $msg"
         echo "...done with $msg" >> $BUILD_HOME/work/build.log
     fi
-}
-
-function get_module_version {
-    grep "<version.$1>" $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src/pom.xml | sed -e "s/<version.$1>\(.*\)<\/version.$1>/\1/" | sed 's/ //g'
 }
 
 function is_supported_version {
@@ -151,6 +144,12 @@ function xml_clean {
         xml_update $(echo $line| sed -e "s/,/ /g")
     done
 }
+
+function xml_delete_test_dependencies {
+    for file in `find . -name pom.xml`; do
+        xml_delete $file "/_:project/_:dependencies/_:dependency[_:scope='test']"
+    done
+}
 function xml_delete {
     # echo xml_delete $*
     params=("$@")
@@ -159,7 +158,7 @@ function xml_delete {
 
     for ((i=0; i<$#-1; i++)); do
         file=${params[$i]}
-        cp $file .tmp.xml
+        mv $file .tmp.xml
         xmlstarlet ed --delete $xpath .tmp.xml > $file
         rm .tmp.xml
     done
