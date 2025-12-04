@@ -56,7 +56,7 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-The build-eap8.sh script supports 8.0.x, 8.1.0->8.1.1
+The build-eap8.sh script supports 8.0.x, 8.1.0->8.1.2
 
 The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.9, 7.3.0->7.3.10, 7.4.0->7.4.23
 
