@@ -16,14 +16,14 @@ function set_version {
     fi
     EAP_SHORT_VERSION=${EAP_VERSION%.*}
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
-    BUILD_HOME=$(pwd)
+    export BUILD_HOME=$(pwd)
     #echo BUILD_HOME=$BUILD_HOME
 
     log "Here we go. Building EAP version $EAP_VERSION."
 }
 
 function prepare_eap_source {
-    download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/$SRC_FILE
+    download_and_unzip https://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/$SRC_FILE
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     xml_clean eap
     cd $BUILD_HOME/work
@@ -34,6 +34,7 @@ function prepare_eap_source {
     else
         jboss-eap-$EAP_SHORT_VERSION-src/tools/download-maven.sh
         MVN=$PWD/maven/bin/mvn
+        M2_HOME=$PWD/maven
     fi
     cd $BUILD_HOME
 }
@@ -45,7 +46,7 @@ function prepare_core_source {
 
     if [ -z "$CORE_FULL_SOURCE_VERSION" ]
     then
-        download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
+        download_and_unzip https://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
         mv $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src $BUILD_HOME/work/wildfly-core-$CORE_VERSION
 
         cd $BUILD_HOME/work/wildfly-core-$CORE_VERSION/core-feature-pack
@@ -90,7 +91,7 @@ function build_eap {
       mv ee-dist dist
     else
       maven_build feature-pack
-      if [ "$EAP_SHORT_VERSION" != "7.1" ]
+      if [[ "$EAP_SHORT_VERSION" > "7.1" ]]
       then
         mv dist dist-new
         mv dist-legacy dist
@@ -112,11 +113,11 @@ function maven_build {
     fi
 
     if [[ "$EAP_SHORT_VERSION" > "7.3" ]]
-        then
-          mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip"
-        else
-          mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -DlegacyRelease=true -Denforcer.skip"
-        fi
+    then
+        mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -Denforcer.skip"
+    else
+        mvn_command="$MVN clean install -s $settings -Dmaven.test.skip -Drelease=true -DlegacyRelease=true -Denforcer.skip"
+    fi
     if [ "$MVN_OUTPUT" = "3" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log

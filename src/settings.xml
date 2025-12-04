@@ -28,7 +28,7 @@
         <repository>
           <id>jboss-public</id>
           <name>JBoss Public Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>
@@ -56,7 +56,7 @@
         <pluginRepository>
           <id>jboss-public</id>
           <name>JBoss Public Repository Group</name>
-          <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+          <url>https://repository.jboss.org/nexus/content/groups/public/</url>
           <layout>default</layout>
           <releases>
             <enabled>true</enabled>

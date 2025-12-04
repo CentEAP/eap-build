@@ -21,7 +21,7 @@ function set_version {
 }
 
 function prepare_eap_source {
-    download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/$SRC_FILE
+    download_and_unzip https://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/$SRC_FILE
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-src
     xml_delete_test_dependencies
     xml_clean eap
@@ -32,7 +32,7 @@ function prepare_eap_source {
 }
 
 function prepare_core_source {
-    download_and_unzip http://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
+    download_and_unzip https://ftp.redhat.com/redhat/jboss/eap/$EAP_VERSION/en/source/jboss-eap-$EAP_VERSION-core-src.zip
     cd $BUILD_HOME/work/jboss-eap-$EAP_SHORT_VERSION-core-src
     xml_delete_test_dependencies
     xml_clean core
