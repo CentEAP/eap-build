@@ -56,7 +56,7 @@ If you don't want to use git, download the archive, unzip it and run the main sc
 
 Versions
 --------
-The build-eap8.sh script supports 8.0.x, 8.1.0->8.1.2
+The build-eap8.sh script supports 8.0.x, 8.1.0->8.1.3
 
 The build-eap7.sh script supports 7.0.0->7.0.9, 7.1.0->7.1.4, 7.2.0->7.2.9, 7.3.0->7.3.10, 7.4.0->7.4.23
 
@@ -107,7 +107,7 @@ You have to install **wget**, **unzip**, **patch**, **java (JDK)**, **grep**, **
 Prerequisite on JDK are the same as JBoss EAP.
 Build needs 
 
-* JDK 17+ for EAP 8.1, 
+* JDK 17 -> 21 for EAP 8.1 (JDK 25 could be OK, but not for 8.1.3), 
 * JDK 11+ for EAP 8.0, 
 * JDK 8 -> 11 for EAP 7.x,
 * JDK 8 for EAP 6.x.
