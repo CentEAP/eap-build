@@ -90,12 +90,14 @@ function maven_exec {
     elif [ "$MVN_OUTPUT" = "2" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $mvn_command | tee -a $BUILD_HOME/work/build.log | grep --invert-match --extended-regexp "Downloading:|Downloaded:" || error "Error in $msg"
+        # Using short arguments for Alpine, -v => --invert-match, -E => --extended-regexp
+        $mvn_command | tee -a $BUILD_HOME/work/build.log | grep -v -E "Downloading:|Downloaded:" || error "Error in $msg"
         echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     elif [ "$MVN_OUTPUT" = "1" ]
     then
         echo "=== $msg (with output level $MVN_OUTPUT) ===" | tee -a $BUILD_HOME/work/build.log
-        $mvn_command | tee -a $BUILD_HOME/work/build.log | grep --extended-regexp "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
+        # Using short arguments for Alpine, -v => --invert-match, -E => --extended-regexp
+        $mvn_command | tee -a $BUILD_HOME/work/build.log | grep -E "Building JBoss|Building WildFly|ERROR|BUILD SUCCESS" || error "Error in $msg"
         echo "...done with $msg" | tee -a $BUILD_HOME/work/build.log
     else
         echo "=== $msg ===" >> $BUILD_HOME/work/build.log
