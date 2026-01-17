@@ -128,14 +128,20 @@ function log {
     now=$(date +"%H:%M:%S")
     echo "$now - $1"
 }
+function send_notification {
+    # Prefer if to a one line because of docker build
+    if command -v notify-send >/dev/null 2>&1; then \
+      notify-send "Building image"; \
+    fi
+}
 
 function finished {
     log "$1"
-    notify-send "EAP build done" 2> /dev/null
+    send_notification "EAP build done"
     exit 0
 }
 function failed {
     log "$1"
-    notify-send "EAP build failed" 2> /dev/null
+    send_notification "EAP build failed"
     exit 1
 }
