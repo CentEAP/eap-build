@@ -1,0 +1,27 @@
+--- work-orig/jboss-eap-6.4-src/pom.xml	2022-05-01 11:48:56.000000000 +0200
++++ work/jboss-eap-6.4-src/pom.xml	2022-07-01 13:09:52.000000000 +0200
+@@ -176,13 +176,13 @@
+         <version.org.jboss.jandex>1.2.5.Final-redhat-1</version.org.jboss.jandex>
+         <version.org.jboss.jboss-dmr>1.2.2.Final-redhat-1</version.org.jboss.jboss-dmr>
+         <version.org.jboss.jboss-transaction-spi>7.1.0.SP2-redhat-1</version.org.jboss.jboss-transaction-spi>
+-        <version.org.jboss.jbossts>4.17.45.Final-redhat-2</version.org.jboss.jbossts>
++        <version.org.jboss.jbossts>4.17.45.Final</version.org.jboss.jbossts>
+         <version.org.jboss.jboss-vfs>3.2.13.Final-redhat-1</version.org.jboss.jboss-vfs>
+         <version.org.jboss.jsfunit>2.0.0.Beta1</version.org.jboss.jsfunit>
+         <version.org.jboss.logging.jboss-logging>3.1.4.GA-redhat-2</version.org.jboss.logging.jboss-logging>
+         <version.org.jboss.logging.jboss-logging-processor>1.1.0.Final</version.org.jboss.logging.jboss-logging-processor>
+         <version.org.jboss.logmanager.jboss-logmanager>1.5.8.Final-redhat-1</version.org.jboss.logmanager.jboss-logmanager>
+-        <version.org.jboss.logmanager.log4j-jboss-logmanager>1.1.4.Final-redhat-00002</version.org.jboss.logmanager.log4j-jboss-logmanager>
++        <version.org.jboss.logmanager.log4j-jboss-logmanager>1.1.6.Final</version.org.jboss.logmanager.log4j-jboss-logmanager>
+         <version.org.jboss.marshalling.jboss-marshalling>1.4.10.SP3-redhat-1</version.org.jboss.marshalling.jboss-marshalling>
+         <version.org.jboss.metadata>7.2.3.Final-redhat-1</version.org.jboss.metadata>
+         <version.org.jboss.mod_cluster>1.2.12.Final-redhat-1</version.org.jboss.mod_cluster>
+@@ -235,7 +235,7 @@
+         <version.org.jboss.staxmapper>1.1.0.Final-redhat-3</version.org.jboss.staxmapper>
+         <version.org.jboss.stdio>1.0.2.GA-redhat-1</version.org.jboss.stdio>
+         <version.org.jboss.threads>2.1.2.Final-redhat-1</version.org.jboss.threads>
+-        <version.org.jboss.web>7.5.32.Final-redhat-1</version.org.jboss.web>
++        <version.org.jboss.web>7.5.32.Final</version.org.jboss.web>
+         <version.org.jboss.weld.weld>1.1.34.Final-redhat-2</version.org.jboss.weld.weld>
+         <version.org.jboss.weld.weld-api>1.1.0.Final-redhat-7</version.org.jboss.weld.weld-api>
+         <version.org.jboss.ws.api>1.0.2.Final-redhat-1</version.org.jboss.ws.api>
