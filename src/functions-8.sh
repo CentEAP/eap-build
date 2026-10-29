@@ -13,7 +13,7 @@ function set_version {
     then
         finished "EAP version $EAP_VERSION already built. If you wanna build it again, remove the dist/jboss-eap-$EAP_VERSION.zip file" 
     fi
-    EAP_SHORT_VERSION=${EAP_VERSION%.*}
+    EAP_SHORT_VERSION=$(echo $EAP_VERSION | cut -d. -f1,2)
     SRC_FILE=jboss-eap-${EAP_VERSION}-src.zip
     export BUILD_HOME=$(pwd)
 
